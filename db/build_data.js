@@ -2,12 +2,18 @@
 
 const { createWriteStream } = require('fs');
 const { generateCustomers } = require("../data/customers");
+const { generatePaymentTypes } = require("../data/payment_types");
 const { generateEmployees, generateSupervisors } = require("../data/employees");
 
 // customers data
 let customers = generateCustomers();
 let custStream = createWriteStream(`./json/customers.json`);
 custStream.write(JSON.stringify(customers));
+
+let paymentTypes = generatePaymentTypes();
+let payStream = createWriteStream(`./json/payment_types.json`);
+payStream.write(JSON.stringify(paymentTypes));
+
 
 
 // employee data

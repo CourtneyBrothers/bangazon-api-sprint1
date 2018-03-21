@@ -6,6 +6,8 @@ const { readFileSync } = require('fs');
 const custData = JSON.parse(readFileSync("./json/customers.json"));
 const empData = JSON.parse(readFileSync("./json/employees.json"));
 const supData = JSON.parse(readFileSync("./json/supervisors.json"));
+const prodData = JSON.parse(readFileSync("./data/product_types.json"));
+const payData = JSON.parse(readFileSync("./json/payment_types.json"));
 
 db.serialize(() => {
     db.run(`DROP TABLE IF EXISTS customers`);
@@ -35,6 +37,38 @@ db.serialize(() => {
             });
         }
     );
+    db.run(`DROP TABLE IF EXISTS product_types`)
+    db.run(
+        `CREATE TABLE IF NOT EXISTS product_types (
+            product_type_id INTEGER PRIMARY KEY,
+            product_type_name TEXT
+        )`,
+            () => {
+                prodData.productTypes.forEach(({ product_type, product_id}) => {
+                    db.run(`INSERT INTO product_types VALUES(
+                        ${product_id},
+                        "${product_type}"
+                    )`);
+            });
+    });
+    db.run(`DROP TABLE IF EXISTS payment_types`)
+    db.run(
+        `CREATE TABLE IF NOT EXISTS payment_types (
+            payment_id INTEGER PRIMARY KEY,
+            customer_id INTEGER,
+            payment_option TEXT,
+            account_number INTEGER
+        )`,
+        () => {
+            payData.forEach(({ customerId, paymentOption, accountNumber }) => {
+                db.run(`INSERT INTO payment_types VALUES(
+                        ${null},
+                        ${customerId},
+                        "${paymentOption}",
+                        ${accountNumber}
+                    )`);
+        });
+    });
 });
 
 

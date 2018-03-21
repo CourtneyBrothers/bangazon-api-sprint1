@@ -5,8 +5,9 @@ const db = new sqlite3.Database('bangazon.sqlite');
 const { readFileSync } = require('fs');
 
 const custData = JSON.parse(readFileSync("./json/customers.json"));
-const prodData = JSON.parse(readFileSync("./data/product_types.json"));
+const prodTypeData = JSON.parse(readFileSync("./data/product_types.json"));
 const payData = JSON.parse(readFileSync("./json/payment_types.json"));
+const prodData = JSON.parse(readFileSync("./json/products.json"));
 
 const empData = JSON.parse(readFileSync("./json/employees.json"));
 const compActiveData = JSON.parse(readFileSync("./json/active_computers.json"));
@@ -50,7 +51,7 @@ db.serialize(() => {
             product_type_name TEXT
         )`,
             () => {
-                prodData.productTypes.forEach(({ product_type, product_id}) => {
+                prodTypeData.productTypes.forEach(({ product_type, product_id}) => {
                     db.run(`INSERT INTO product_types VALUES(
                         ${product_id},
                         "${product_type}"
@@ -75,6 +76,30 @@ db.serialize(() => {
                     )`);
         });
     });
+    db.run(`DROP TABLE IF EXISTS products`)
+    db.run(
+        `CREATE TABLE IF NOT EXISTS products (
+            product_id INTEGER PRIMARY KEY,
+            product_name TEXT,
+            product_type INTEGER,
+            price INTEGER,
+            description TEXT,
+            customer_id INTEGER,
+            listing_date TEXT
+        )`,
+        () => {
+            prodData.forEach(({ productName,productType,price,description,customerId,dateCreated }) => {
+                db.run(`INSERT INTO products VALUES(
+                        ${null},
+                        "${productName}",
+                        ${productType},
+                        ${price},
+                        "${description}",
+                        ${customerId},
+                        "${dateCreated}"
+                    )`);
+            });
+        });
 });
 
 

@@ -3,9 +3,13 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('bangazon.sqlite');
 const { readFileSync } = require('fs');
-const custData = JSON.parse(readFileSync("./json/customers.json"));
+
 const empData = JSON.parse(readFileSync("./json/employees.json"));
 const supData = JSON.parse(readFileSync("./json/supervisors.json"));
+const compActiveData = JSON.parse(readFileSync("./json/active_computers.json"));
+const compDeadData = JSON.parse(readFileSync("./json/dead_computers.json"));
+
+const custData = JSON.parse(readFileSync("./json/customers.json"));
 const prodData = JSON.parse(readFileSync("./data/product_types.json"));
 const payData = JSON.parse(readFileSync("./json/payment_types.json"));
 
@@ -102,5 +106,26 @@ db.serialize(() => {
                 )`);
             });
         }
-    )
+    );
+    db.run(`DROP TABLE IF EXISTS positions`);
+    db.run(`CREATE TABLE IF NOT EXISTS positions (position_id INTEGER PRIMARY KEY, position_title TEXT)`,
+    ()=>{
+        db.run(`INSERT INTO positions VALUES (${null}, "supervisor")`);
+        db.run(`INSERT INTO positions VALUES (${null}, "associate")`);
+    });
+    db.run(`DROP TABLE IF EXISTS computers`);
+    db.run(`CREATE TABLE IF NOT EXISTS computers (
+        computer_id INTEGER PRIMARY KEY,
+        purchase_date TEXT,
+        decommission_date TEXT
+    )`,
+        ()=>{
+            compActiveData.forEach(({purchaseDate})=>{
+                db.run(`INSERT INTO computers VALUES(${null}, "${purchaseDate}", null)`)
+            });
+            compDeadData.forEach(({ purchaseDate, decommissionDate }) => {
+                db.run(`INSERT INTO computers VALUES(${null}, "${purchaseDate}", "${decommissionDate}")`)
+            });
+        }
+    );
 });

@@ -12,7 +12,7 @@ module.exports.generateEmployees = () => {
             min: 1,
             max: 11
         });
-        let posId = 0;
+        let posId = 2;
 
         employees.push({
             firstName,

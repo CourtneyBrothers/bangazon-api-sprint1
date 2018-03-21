@@ -12,7 +12,7 @@ module.exports.generateCustomers = () => {
         let addressCity = faker.address.city();
         let addressState = faker.address.state();
         let addressZip = faker.address.zipCode();
-        let accountCreationDate = faker.date.recent();
+        let accountCreationDate = faker.date.recent().toISOString().split('T')[0];
 
         customers.push({
             firstName,

@@ -3,7 +3,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('bangazon.sqlite');
 const { readFileSync } = require('fs');
-const custData = JSON.parse(readFileSync("./customers.json"));
+const custData = JSON.parse(readFileSync("./json/customers.json"));
 
 db.run(`DROP TABLE IF EXISTS customers`);
 db.run(

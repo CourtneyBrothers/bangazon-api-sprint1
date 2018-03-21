@@ -35,7 +35,10 @@ db.serialize(() => {
             });
         }
     );
+});
 
+
+db.serialize(() => {
     db.run(`DROP TABLE IF EXISTS employees`);
     db.run(
         `CREATE TABLE IF NOT EXISTS employees (

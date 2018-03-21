@@ -4,7 +4,7 @@ const { createWriteStream } = require('fs');
 const { generateCustomers } = require("../data/customers");
 const { generatePaymentTypes } = require("../data/payment_types");
 
-const { generateEmployees, generateSupervisors } = require("../data/employees");
+const { generateEmployees } = require("../data/employees");
 const { generateActiveComputers, generateDeadComputers } = require("../data/computers");
 const { generateTrainingPrograms } = require("../data/training");
 
@@ -27,10 +27,6 @@ payStream.write(JSON.stringify(paymentTypes));
 let employees = generateEmployees();
 let empStream = createWriteStream(`./json/employees.json`);
 empStream.write(JSON.stringify(employees));
-
-let supervisors = generateSupervisors();
-let supStream = createWriteStream(`./json/supervisors.json`);
-supStream.write(JSON.stringify(supervisors));
 
 let activeComputers = generateActiveComputers();
 let compActiveStream = createWriteStream(`./json/active_computers.json`);

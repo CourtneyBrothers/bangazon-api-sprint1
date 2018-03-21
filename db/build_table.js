@@ -5,15 +5,14 @@ const db = new sqlite3.Database('bangazon.sqlite');
 const { readFileSync } = require('fs');
 
 const empData = JSON.parse(readFileSync("./json/employees.json"));
-const supData = JSON.parse(readFileSync("./json/supervisors.json"));
 const compActiveData = JSON.parse(readFileSync("./json/active_computers.json"));
 const compDeadData = JSON.parse(readFileSync("./json/dead_computers.json"));
 const trainingData = JSON.parse(readFileSync("./json/training.json"));
 
-
 const custData = JSON.parse(readFileSync("./json/customers.json"));
 const prodData = JSON.parse(readFileSync("./data/product_types.json"));
 const payData = JSON.parse(readFileSync("./json/payment_types.json"));
+
 
 db.serialize(() => {
     db.run(`DROP TABLE IF EXISTS customers`);
@@ -86,7 +85,6 @@ db.serialize(() => {
     first_name TEXT,
     last_name TEXT,
     dept_id INTEGER,
-    position_id INTEGER
     )`,
         () => {
             empData.forEach(({ firstName, lastName, deptId, posId }) => {
@@ -94,27 +92,11 @@ db.serialize(() => {
                 ${null},
                 "${firstName}",
                 "${lastName}",
-                ${deptId},
-                ${posId}
-                )`);
-            });
-            supData.forEach(({ firstName, lastName, deptId, posId }) => {
-                db.run(`INSERT INTO employees VALUES (
-                ${null},
-                "${firstName}",
-                "${lastName}",
-                ${deptId},
-                ${posId}
+                ${deptId}
                 )`);
             });
         }
     );
-    db.run(`DROP TABLE IF EXISTS positions`);
-    db.run(`CREATE TABLE IF NOT EXISTS positions (position_id INTEGER PRIMARY KEY, position_title TEXT)`,
-    ()=>{
-        db.run(`INSERT INTO positions VALUES (${null}, "supervisor")`);
-        db.run(`INSERT INTO positions VALUES (${null}, "associate")`);
-    });
     db.run(`DROP TABLE IF EXISTS computers`);
     db.run(`CREATE TABLE IF NOT EXISTS computers (
         computer_id INTEGER PRIMARY KEY,

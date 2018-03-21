@@ -100,6 +100,25 @@ db.serialize(() => {
                     )`);
             });
         });
+    db.run(`DROP TABLE IF EXISTS orders`);
+    db.run(
+        `CREATE TABLE IF NOT EXISTS orders (
+            order_id INTEGER PRIMARY KEY,
+            customer_id INTEGER,
+            payment_type INTEGER,
+            FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+            FOREIGN KEY (payment_type) REFERENCES payment_types(payment_id) 
+        )`,
+            ()=>{
+                for (let i=1;i<=15;i++){
+                    db.run(`INSERT INTO orders VALUES (
+                        ${null},
+                        ${i},
+                        null
+                    )`);
+                }
+            }
+    );
 });
 
 

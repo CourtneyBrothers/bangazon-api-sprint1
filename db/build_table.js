@@ -4,14 +4,15 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('bangazon.sqlite');
 const { readFileSync } = require('fs');
 
+const custData = JSON.parse(readFileSync("./json/customers.json"));
+const prodData = JSON.parse(readFileSync("./data/product_types.json"));
+const payData = JSON.parse(readFileSync("./json/payment_types.json"));
+
 const empData = JSON.parse(readFileSync("./json/employees.json"));
 const compActiveData = JSON.parse(readFileSync("./json/active_computers.json"));
 const compDeadData = JSON.parse(readFileSync("./json/dead_computers.json"));
 const trainingData = JSON.parse(readFileSync("./json/training.json"));
-
-const custData = JSON.parse(readFileSync("./json/customers.json"));
-const prodData = JSON.parse(readFileSync("./data/product_types.json"));
-const payData = JSON.parse(readFileSync("./json/payment_types.json"));
+const deptData = JSON.parse(readFileSync("./json/departments.json"));
 
 
 db.serialize(() => {
@@ -30,19 +31,19 @@ db.serialize(() => {
         () => {
             custData.forEach(({ firstName, lastName, addressStreet, addressCity, addressState, addressZip, accountCreationDate }) => {
                 db.run(`INSERT INTO customers VALUES (
-        ${null},
-        "${firstName}",
-        "${lastName}",
-        "${addressStreet}",
-        "${addressCity}",
-        "${addressState}",
-        "${addressZip}",
-        "${accountCreationDate}"
-        )`);
+                    ${null},
+                    "${firstName}",
+                    "${lastName}",
+                    "${addressStreet}",
+                    "${addressCity}",
+                    "${addressState}",
+                    "${addressZip}",
+                    "${accountCreationDate}"
+                    )`);
             });
         }
     );
-    db.run(`DROP TABLE IF EXISTS product_types`)
+    db.run(`DROP TABLE IF EXISTS product_types`);
     db.run(
         `CREATE TABLE IF NOT EXISTS product_types (
             product_type_id INTEGER PRIMARY KEY,
@@ -84,10 +85,10 @@ db.serialize(() => {
     employee_id INTEGER PRIMARY KEY,
     first_name TEXT,
     last_name TEXT,
-    dept_id INTEGER,
+    dept_id INTEGER
     )`,
         () => {
-            empData.forEach(({ firstName, lastName, deptId, posId }) => {
+            empData.forEach(({ firstName, lastName, deptId }) => {
                 db.run(`INSERT INTO employees VALUES (
                 ${null},
                 "${firstName}",
@@ -128,6 +129,24 @@ db.serialize(() => {
                    "${startDate}",
                    "${endDate}",
                    ${maxAttendees}
+               )`);
+            });
+        }
+    );
+    db.run(`DROP TABLE IF EXISTS departments`);
+    db.run(`CREATE TABLE IF NOT EXISTS departments (
+        department_id INTEGER PRIMARY KEY,
+        department_name TEXT,
+        supervisor_id INTEGER,
+        budget INTEGER
+    )`,
+        () => {
+            deptData.forEach(({ deptName, supervisorId, budget }) => {
+                db.run(`INSERT INTO departments VALUES(
+                   ${null},
+                   "${deptName}",
+                   ${supervisorId},
+                   ${budget}
                )`);
             });
         }

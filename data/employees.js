@@ -10,13 +10,13 @@ module.exports.generateEmployees = () => {
         let lastName = faker.name.lastName();
         let deptId = faker.random.number({
             min: 1,
-            max: 11
+            max: 12
         });
 
         employees.push({
             firstName,
             lastName,
-            deptId,
+            deptId
         });
     }
 

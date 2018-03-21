@@ -7,6 +7,7 @@ const { generatePaymentTypes } = require("../data/payment_types");
 const { generateEmployees } = require("../data/employees");
 const { generateActiveComputers, generateDeadComputers } = require("../data/computers");
 const { generateTrainingPrograms } = require("../data/training");
+const { generateDepartments } = require("../data/departments");
 
 
 
@@ -39,3 +40,7 @@ compDeadStream.write(JSON.stringify(deadComputers));
 let trainingPrograms = generateTrainingPrograms();
 let trainingStream = createWriteStream(`./json/training.json`);
 trainingStream.write(JSON.stringify(trainingPrograms));
+
+let departments = generateDepartments();
+let departmentStream = createWriteStream(`./json/departments.json`);
+departmentStream.write(JSON.stringify(departments));

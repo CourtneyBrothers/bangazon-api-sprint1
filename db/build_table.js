@@ -4,6 +4,8 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('bangazon.sqlite');
 const { readFileSync } = require('fs');
 
+const { getAllPayments } = require('./get_tables');
+
 const custData = JSON.parse(readFileSync("./json/customers.json"));
 const prodTypeData = JSON.parse(readFileSync("./data/product_types.json"));
 const payData = JSON.parse(readFileSync("./json/payment_types.json"));
@@ -15,6 +17,7 @@ const compDeadData = JSON.parse(readFileSync("./json/dead_computers.json"));
 const trainingData = JSON.parse(readFileSync("./json/training.json"));
 const deptData = JSON.parse(readFileSync("./json/departments.json"));
 
+// let allPayments = [];
 
 db.serialize(() => {
     db.run(`DROP TABLE IF EXISTS customers`);
@@ -117,6 +120,17 @@ db.serialize(() => {
                         null
                     )`);
                 }
+                db.all(`SELECT payment_id, customer_id FROM payment_types`,
+                    (err, paymentTypes) => {
+                        if (err) return reject(err);
+                        paymentTypes.forEach(payment => {
+                            db.run(`INSERT INTO orders VALUES(
+                                ${null},
+                                ${payment.customer_id},
+                                ${payment.payment_id}
+                        )`);
+                    });
+                });
             }
     );
 });

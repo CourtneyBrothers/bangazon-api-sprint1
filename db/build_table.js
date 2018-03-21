@@ -8,6 +8,8 @@ const empData = JSON.parse(readFileSync("./json/employees.json"));
 const supData = JSON.parse(readFileSync("./json/supervisors.json"));
 const compActiveData = JSON.parse(readFileSync("./json/active_computers.json"));
 const compDeadData = JSON.parse(readFileSync("./json/dead_computers.json"));
+const trainingData = JSON.parse(readFileSync("./json/training.json"));
+
 
 const custData = JSON.parse(readFileSync("./json/customers.json"));
 const prodData = JSON.parse(readFileSync("./data/product_types.json"));
@@ -125,6 +127,26 @@ db.serialize(() => {
             });
             compDeadData.forEach(({ purchaseDate, decommissionDate }) => {
                 db.run(`INSERT INTO computers VALUES(${null}, "${purchaseDate}", "${decommissionDate}")`)
+            });
+        }
+    );
+    db.run(`DROP TABLE IF EXISTS training_programs`);
+    db.run(`CREATE TABLE IF NOT EXISTS training_programs (
+        program_id INTEGER PRIMARY KEY,
+        program_title TEXT,
+        start_date TEXT,
+        end_date TEXT,
+        max_attendees INTEGER
+    )`,
+        ()=>{
+            trainingData.forEach(({programTitle,startDate,endDate,maxAttendees})=>{
+               db.run(`INSERT INTO training_programs VALUES(
+                   ${null},
+                   "${programTitle}",
+                   "${startDate}",
+                   "${endDate}",
+                   ${maxAttendees}
+               )`);
             });
         }
     );

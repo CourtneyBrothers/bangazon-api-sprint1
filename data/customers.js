@@ -17,6 +17,7 @@ module.exports.generateCustomers = () => {
         customers.push({
             firstName,
             lastName,
+            addressStreet,
             addressCity,
             addressState,
             addressZip,

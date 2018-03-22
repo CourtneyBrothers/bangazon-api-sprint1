@@ -27,3 +27,17 @@ module.exports.getOne = (id) => {
         );
     });
 };
+
+module.exports.postOne = ({ customer_id, payment_option, account_number }) => {
+    return new Promise ( (resolve, reject) => {
+        db.run(
+        `INSERT INTO payment_types
+        VALUES (${null}, ${customer_id}, "${payment_option}", ${account_number}
+        )`,
+        (err) => {
+            if (err) return reject(err);
+            resolve({id: this.lastId});
+            }
+        );
+    });
+}

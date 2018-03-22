@@ -16,6 +16,7 @@ const compDeadData = JSON.parse(readFileSync("./json/dead_computers.json"));
 const trainingData = JSON.parse(readFileSync("./json/training.json"));
 const deptData = JSON.parse(readFileSync("./json/departments.json"));
 const empTrainData = JSON.parse(readFileSync("./json/employee_training.json"));
+const empCompData = JSON.parse(readFileSync("./json/employee_computer.json"));
 // let allPayments = [];
 
 db.serialize(() => {
@@ -238,7 +239,25 @@ db.serialize(() => {
                 )`) 
             }
         });
-    });
+    db.run(`DROP TABLE IF EXISTS employee_computers`);
+    db.run(`CREATE TABLE IF NOT EXISTS employee_computers (
+        line_id INTEGER,
+        computer_id INTEGER,
+        employee_id INTEGER,
+        start_date TEXT,
+        end_date TEXT
+    )`,()=>{
+        empCompData.forEach(({lineId, computerId, employeeId, startDate, endDate})=>{
+            db.run(`INSERT INTO employee_computers VALUES (
+                ${lineId},
+                ${computerId},
+                ${employeeId},
+                "${startDate}",
+                "${endDate}"
+            )`)
+        })
+    })
+});
 
 
 

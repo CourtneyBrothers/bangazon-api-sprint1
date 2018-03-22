@@ -2,12 +2,16 @@ const express = require("express");
 require("dotenv").config();
 const app = express();
 const routes = require("./routes/");
+const bodyParser = require('body-parser');
 
 console.log('Hello from Slothful Sheep');
 
 
 // middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use('/api/v1/', routes);
+
 
 
 // error handling

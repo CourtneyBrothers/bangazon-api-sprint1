@@ -1,6 +1,6 @@
 "use strict";
 
-const { getAll, getOne, postOne, deleteOne } = require("../models/Order");
+const { getAll, getOne, postOne, putOne, deleteOne } = require("../models/Order");
 
 // GET
 module.exports.getAllOrders = (req, res, next) => {
@@ -27,6 +27,15 @@ module.exports.getOneOrder = ( { params: { id } }, res, next) => {
 // POST
 module.exports.postOneOrder = (req, res, next) => {
     postOne(req.body)
+    .then(order => {
+        res.status(200).json(order)
+    })
+    .catch(err => next(err));
+}
+
+// PUT
+module.exports.putOneOrder = (req, res, next) => {
+    putOne(req.params, req.body)
     .then(order => {
         res.status(200).json(order)
     })

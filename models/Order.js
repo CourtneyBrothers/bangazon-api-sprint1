@@ -36,18 +36,15 @@ module.exports.postOne = ({customer_id, payment_type}) => {
 }
 
 // PUT
-// module.exports.putOne = ({payment_type}) => {
-//     return new Promise((resolve, reject) => {
-//         db.run(`UPDATE orders SET payment_type = `, (err) => {
-//             if (err) return reject(err);
-//             resolve({id: this.lastID})
-//         })
-//     })
-// }
-
-
-
-
+module.exports.putOne = ({id}, {customer_id, payment_type}) => {
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE orders SET order_id=${id}, customer_id=${customer_id}, payment_type=${payment_type}
+                WHERE order_id=${id}`, (err) => {
+            if (err) return reject(err);
+            resolve({id: this.lastID})
+        })
+    })
+}
 
 // DELETE
 module.exports.deleteOne = ({order_id}) => {

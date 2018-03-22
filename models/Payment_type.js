@@ -1,10 +1,10 @@
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database("./db/bangazon.sqlite");
+const db = new sqlite3.Database("./bangazon.sqlite");
 
-module.exports.getAllPaymentTypes = () => {
+module.exports.getAll = () => {
     return new Promise( (resolve, reject) => {
         db.all(
-        `SELECT * payment_option
+        `SELECT *
         FROM payment_types`, 
         (err, paymentTypes) => {
             if (err) return reject(err);
@@ -14,15 +14,15 @@ module.exports.getAllPaymentTypes = () => {
     });
 };
 
-module.exports.getOnePaymentType = () => {
+module.exports.getOne = (id) => {
     return new Promise( (resolve, reject) => {
         db.get(
-        `SELECT payment_option
+        `SELECT * 
         FROM payment_types
-        WHERE payment_id = ${id}`,
+        WHERE payment_types.payment_id = ${id}`,
         (err, paymentType) => {
             if (err) return reject(err);
-            resolve(paymentTypes);
+            resolve(paymentType);
             }
         );
     });

@@ -1,7 +1,7 @@
-const { getAllPaymentTypes, getOnePaymentType } = require('../models/Payment_type');
+const { getAll, getOne } = require('../models/Payment_type');
 
 module.exports.getAllPaymentTypes = (req, res, next) => {
-    getAllPaymentTypes()
+    getAll()
     .then( (paymentTypes) => {
         res.status(200).json(paymentTypes);
     })
@@ -9,7 +9,8 @@ module.exports.getAllPaymentTypes = (req, res, next) => {
 };
 
 module.exports.getOnePaymentType = (req, res, next) => {
-    getOnePaymentType()
+    let paymentId = req.params.id;
+    getOne(paymentId)
     .then( (paymentType) => {
         res.status(200).json(paymentType);
     })

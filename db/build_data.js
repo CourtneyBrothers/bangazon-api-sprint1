@@ -9,7 +9,7 @@ const { generateEmployees } = require("../data/employees");
 const { generateActiveComputers, generateDeadComputers } = require("../data/computers");
 const { generateTrainingPrograms } = require("../data/training");
 const { generateDepartments } = require("../data/departments");
-
+const { generateEmployeeTraining } = require("../data/employee_training");
 
 
 // customers data
@@ -47,3 +47,7 @@ trainingStream.write(JSON.stringify(trainingPrograms));
 let departments = generateDepartments();
 let departmentStream = createWriteStream(`./json/departments.json`);
 departmentStream.write(JSON.stringify(departments));
+
+let employeeTraining = generateEmployeeTraining();
+let empTrainStream = createWriteStream(`./json/employee_training.json`);
+empTrainStream.write(JSON.stringify(employeeTraining));

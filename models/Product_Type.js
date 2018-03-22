@@ -21,3 +21,13 @@ module.exports.getOne = (id) => {
             });
         });    
 };
+
+module.exports.postOne = ({product_type_name}) => {
+    return new Promise( (resolve, reject) => {
+        db.run(`INSERT INTO product_types VALUES(null, "${product_type_name}")`,
+        (err) => {
+            if (err) reject(err);
+            resolve({id: this.lastID});
+        });
+    });
+}

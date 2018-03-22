@@ -1,5 +1,5 @@
 
-const { getAll, getOne } = require("../models/Product_Type");
+const { getAll, getOne, postOne } = require("../models/Product_Type");
 
 
 module.exports.getProductTypes = (req, res, next) => {
@@ -16,3 +16,11 @@ module.exports.getOneProductType = (req, res, next) => {
     })
     .catch( (err) => next(err));
 };
+module.exports.postOneProductType = (req, res, next) => {
+    console.log(req.body);
+    postOne(req.body)
+    .then( (prodType) => {
+        res.status(200).json(prodType);
+    })
+    .catch( (err) => next(err));
+}

@@ -4,8 +4,6 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('bangazon.sqlite');
 const { readFileSync } = require('fs');
 
-const { getAllPayments } = require('./get_tables');
-
 const custData = JSON.parse(readFileSync("./json/customers.json"));
 const prodTypeData = JSON.parse(readFileSync("./data/product_types.json"));
 const payData = JSON.parse(readFileSync("./json/payment_types.json"));
@@ -210,3 +208,6 @@ db.serialize(() => {
         }
     );
 });
+
+
+

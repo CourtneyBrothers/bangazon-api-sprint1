@@ -50,11 +50,11 @@ module.exports.postOne = ({customer_id, payment_type}) => {
 
 
 // DELETE
-// module.exports.deleteOne = id => {
-//   return new Promise((resolve, reject) => {
-//     db.run(`DELETE FROM orders WHERE order_id=${id}`, error => {
-//       if (error) return reject(error);
-//       resolve();
-//     });
-//   });
-// };
+module.exports.deleteOne = ({order_id}) => {
+  return new Promise((resolve, reject) => {
+    db.run(`DELETE FROM orders WHERE order_id=${order_id}`, error => {
+      if (error) return reject(error);
+      resolve({id: this.lastID});
+    });
+  });
+};

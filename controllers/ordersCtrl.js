@@ -26,7 +26,6 @@ module.exports.getOneOrder = ( { params: { id } }, res, next) => {
 
 // POST
 module.exports.postOneOrder = (req, res, next) => {
-    console.log('req body', req.body);
     postOne(req.body)
     .then(order => {
         res.status(200).json(order)
@@ -35,16 +34,11 @@ module.exports.postOneOrder = (req, res, next) => {
 }
 
 // DELETE
-// module.exports.deleteOneOrder = ( {params: {id} }, res, next) => {
-//     deleteOne(id)
-//     .then(order => {
-//         if (order) {
-//             res.status(200).json(order);
-//         } else {
-//             let error = new Error("Order not found to delete")
-//             next(error)
-//         }
-//     })
-//     .catch(err => next(err));
-// };
+module.exports.deleteOneOrder = (req, res, next) => {
+    deleteOne(req.body)
+    .then(order => {
+        res.status(200).json(order)
+    })
+    .catch(err => next(err));
+};
 

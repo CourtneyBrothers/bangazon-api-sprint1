@@ -2,3 +2,4 @@ node_modules
 bangazon.sqlite
 package-lock.json
 json
+.env

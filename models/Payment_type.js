@@ -41,3 +41,22 @@ module.exports.postOne = ({ customer_id, payment_option, account_number }) => {
         );
     });
 }
+
+module.exports.putOne = ({ payment_id, customer_id, payment_option, account_number }) => {
+    return new Promise ( (resolve, reject) => {
+        db.run(
+        `UPDATE payment_types
+        SET 
+        payment_id = ${payment_id}, 
+        customer_id = ${customer_id}, 
+        payment_option = "${payment_option}", 
+        account_number = ${account_number}
+        WHERE payment_id = ${payment_id}
+        `,
+        (err, paymentType) => {
+            if (err) return reject(err);
+            resolve(paymentType)
+            }
+        );
+    });
+}

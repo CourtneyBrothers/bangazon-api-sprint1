@@ -1,8 +1,9 @@
 
 const { Router } = require('express');
 const dirRouter = Router();
-const { getProductTypes } = require('../controllers/product_typesCtrl')
+const { getProductTypes, getOneProductType } = require('../controllers/productTypesCtrl')
 
 dirRouter.get("/product_types", getProductTypes);
+dirRouter.get("/product_types/:id", getOneProductType);
 
 module.exports = dirRouter;

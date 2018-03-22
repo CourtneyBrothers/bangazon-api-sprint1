@@ -4,9 +4,20 @@ const db = new sqlite3.Database("./bangazon.sqlite");
 module.exports.getAll = () => {
     return new Promise( (resolve, reject ) => {
         db.all(`SELECT * FROM product_types`,
-            (err, direx) => {
+            (err, prodTypes) => {
                 if (err) reject(err);
-                resolve(direx);
+                resolve(prodTypes);
+            });
+        });    
+};
+
+module.exports.getOne = (id) => {
+    return new Promise( (resolve, reject ) => {
+        db.all(`SELECT * FROM product_types
+        WHERE product_type_id = ${id}`,
+            (err, prodType) => {
+                if (err) reject(err);
+                resolve(prodType);
             });
         });    
 };

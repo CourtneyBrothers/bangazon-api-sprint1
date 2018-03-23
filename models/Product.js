@@ -51,7 +51,18 @@ module.exports.putOne = (id, { product_name, product_type, price, description, c
                 listing_date = "${listing_date}"
             WHERE product_id = ${id}`, 
             (err) => {
-                resolve({ id: this.lastID });
+                resolve({ changes: this.changes });
+                reject(err => console.log("WOOPS, not putting to DB", err));
+            });
+    });
+}
+
+module.exports.deleteOne = (id) => {
+    return new Promise((resolve, reject) => {
+        db.run(`DELETE FROM products 
+                WHERE product_id = ${id}`,
+            (err) => {
+                resolve({ changes: this.changes });
                 reject(err => console.log("WOOPS, not putting to DB", err));
             });
     });

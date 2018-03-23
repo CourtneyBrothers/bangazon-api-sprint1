@@ -67,3 +67,13 @@ module.exports.deleteOne = (id) => {
             });
     });
 }
+
+module.exports.productOnOrders = (id) => {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM order_products WHERE order_products.product_id = ${id}`,
+            (err, products) => {
+                if (err) return reject(err);
+                resolve(products);
+        });
+    });
+}

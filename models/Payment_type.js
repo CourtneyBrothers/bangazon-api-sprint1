@@ -61,17 +61,3 @@ module.exports.putOne = ({ payment_id, customer_id, payment_option, account_numb
         );
     });
 }
-
-module.exports.deleteOne = ({ payment_id }) => {
-    return new Promise ( (resolve, rejecy) => {
-        db.run (
-            `DELETE FROM payment_types
-            WHERE payment_id = ${payment_id}`,
-            (err, paymentType) => {
-                if (err) return reject(err);
-                console.log(this.changes);
-                resolve(this.changes);
-            }
-        );
-    });
-}

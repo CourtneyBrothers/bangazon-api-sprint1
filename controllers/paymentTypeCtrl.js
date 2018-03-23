@@ -1,4 +1,4 @@
-const { getAll, getOne, postOne, putOne, deleteOne } = require('../models/Payment_type');
+const { getAll, getOne, postOne, putOne } = require('../models/Payment_type');
 
 module.exports.getAllPaymentTypes = (req, res, next) => {
     getAll()
@@ -35,11 +35,7 @@ module.exports.putOnePaymentType = (req, res, next) => {
 }
 
 module.exports.deleteOnePaymentType = (req, res, next) => {
-    // res.error = "You are unable to delete this data";
-    // next(res.error);
-    deleteOne(req.body)
-    .then( (paymentType) => {
-        res.status(200).json(paymentType)
-    })
-    .catch( (err) => next(err));
+    let error = new Error("You are not authorized to delete an existing payment type");
+    error.status = 405;
+    next(error);
 }

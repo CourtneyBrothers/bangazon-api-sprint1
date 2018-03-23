@@ -2,7 +2,8 @@ const { Router } = require('express');
 const router = Router();
 
 // router.use(require('./<FILE NAME>));
-router.use(require('./payment_types'));
 
+router.use(require('./payment_types'));
+router.use(require('./customerRoute'));
 
 module.exports = router;

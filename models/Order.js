@@ -47,11 +47,29 @@ module.exports.putOne = ({id}, {customer_id, payment_type}) => {
 }
 
 // DELETE
-module.exports.deleteOne = ({order_id}) => {
+module.exports.deleteOne = (id) => {
     return new Promise((resolve, reject) => {
-        db.run(`DELETE FROM orders WHERE order_id=${order_id}`, error => {
-            if (error) return reject(error);
-            resolve({id: this.lastID});
-        });
-    });
+        db.run(`DELETE FROM orders WHERE order_id=${id}`, (err, orders) => {
+            if (err) return reject(err);
+            resolve(orders);
+        })
+    })
+    // return new Promise((resolve, reject) => {
+    //     db.run(`DELETE FROM orders WHERE order_id=${order_id} AND product_type=NULL`, error => {
+    //         if (error) return reject(error);
+    //         resolve({id: this.lastID});
+    //     });
+    // });
 };
+
+module.exports.getOneActive = (id) => {
+    return new Promise((resolve, reject) => {
+      db.get(
+        `SELECT * FROM orders WHERE order_id = ${id}`,
+        (err, orders) => {
+          if (err) return reject(err);
+          resolve(orders);
+        }
+      );
+    });
+  };

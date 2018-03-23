@@ -1,6 +1,6 @@
 "use strict";
 
-const { getAll, getOne, postOne, putOne, deleteOne } = require("../models/Order");
+const { getAll, getOne, postOne, putOne, deleteOne, getOneActive } = require("../models/Order");
 
 // GET
 module.exports.getAllOrders = (req, res, next) => {
@@ -42,12 +42,28 @@ module.exports.putOneOrder = (req, res, next) => {
     .catch(err => next(err));
 }
 
+
+
 // DELETE
 module.exports.deleteOneOrder = (req, res, next) => {
-    deleteOne(req.body)
-    .then(order => {
-        res.status(200).json(order)
+    getOneActive(req.params.id)
+    .then(orders => {
+        console.log('orders', orders);
+        if (orders.payment_type === null) {
+            deleteOne(req.params.id)
+            .then(order => {
+                res.status(200).json(order)
+            })
+            .catch(err => next(err));
+        }
     })
-    .catch(err => next(err));
+    // if ( // orders.order_id=${id} and orders.payment_type=null ) {
+    //     // delete * from orders where orders.order_id=${id} and payment_type=null, AND delete * from order_products where order_products.order_id = ${id} 
+    // } else {
+    //     let error = new Error("You cannot delete an order that has been completed")
+    //     error.status = 405;
+    //     next(error)
+    // }
 };
+
 

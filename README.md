@@ -29,7 +29,7 @@ this should return the properties of the customer with the corresponding custome
 6) postOneCustomer 
 recommended to use through postman by passing in an object in the request body 
 
-PUT: localhost:<port number>/api/v1/customers/
+POST: localhost:<port number>/api/v1/customers/
 Example: 
 {
 "firstName":"Lelia",

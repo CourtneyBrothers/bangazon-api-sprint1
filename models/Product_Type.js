@@ -44,3 +44,14 @@ module.exports.putOne = ({ product_type_id, product_type_name }) => {
             });
     });
 }
+module.exports.deleteOne = ({ product_type_id, product_type_name }) => {
+    return new Promise((resolve, reject) => {
+        console.log(product_type_id, product_type_name);
+        db.run(`DELETE FROM product_types 
+                WHERE product_type_id = ${product_type_id} and product_type_name = ${product_type_name}`,
+            (err) => {
+                if (err) reject(err);
+                resolve({ id: this.lastID });
+            });
+    });
+}

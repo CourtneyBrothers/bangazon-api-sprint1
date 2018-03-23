@@ -34,8 +34,8 @@ module.exports.postOne = ({ product_name, product_type, price, description, cust
             ${customer_id},
             "${listing_date}"
         )`, (err) => {
+                if (err) return reject(err);
                 resolve({ id: this.lastID });
-                reject(err => console.log("WOOPS, not posting to DB", err));
             });
     });
 }
@@ -51,8 +51,8 @@ module.exports.putOne = (id, { product_name, product_type, price, description, c
                 listing_date = "${listing_date}"
             WHERE product_id = ${id}`, 
             (err) => {
+                if(err) return reject(err);
                 resolve({ changes: this.changes });
-                reject(err => console.log("WOOPS, not putting to DB", err));
             });
     });
 }
@@ -62,8 +62,8 @@ module.exports.deleteOne = (id) => {
         db.run(`DELETE FROM products 
                 WHERE product_id = ${id}`,
             (err) => {
+                if(err) return reject(err);
                 resolve({ changes: this.changes });
-                reject(err => console.log("WOOPS, not putting to DB", err));
             });
     });
 }

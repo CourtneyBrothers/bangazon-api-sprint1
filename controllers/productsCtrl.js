@@ -31,7 +31,6 @@ module.exports.deleteProduct = (req, res, next) => {
     productOnOrders(req.params.id)
         .then(products=>{
             if (!products.length){
-                console.log("nothing in here!");
                 deleteOne(req.params.id)
                     .then(product => res.status(200).json(product))
                     .catch(err => next(err));;

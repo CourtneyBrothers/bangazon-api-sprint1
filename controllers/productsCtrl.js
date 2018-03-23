@@ -28,7 +28,10 @@ module.exports.putProduct = (req, res, next) => {
 }
 
 module.exports.deleteProduct = (req, res, next) => {
-    deleteOne(req.params.id)
-        .then(product => res.status(200).json(product))
-        .catch(err => next(err));
+    res.error = "please dont delete anything";
+    console.log(res.error);
+    next(res.error);
+    // deleteOne(req.params.id)
+    //     .then(product => res.status(200).json(product))
+    //     .catch(err => next(err));
 }

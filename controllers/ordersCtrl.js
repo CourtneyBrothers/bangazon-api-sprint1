@@ -55,6 +55,10 @@ module.exports.deleteOneOrder = (req, res, next) => {
                 res.status(200).json(order)
             })
             .catch(err => next(err));
+        } else {
+            let error = new Error("You cannot delete an order that has been completed")
+            error.status = 405;
+            next(error)
         }
     })
     // if ( // orders.order_id=${id} and orders.payment_type=null ) {

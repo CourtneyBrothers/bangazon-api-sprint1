@@ -3,5 +3,5 @@ const router = Router();
 
 // router.use(require('./<FILE NAME>));
 router.use(require('./customerRoute'));
-
+router.use(require('./employeeRoute'));
 module.exports = router;

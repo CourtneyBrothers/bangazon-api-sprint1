@@ -48,10 +48,10 @@ module.exports.putOne = ({id}, {customer_id, payment_type}) => {
 
 // DELETE
 module.exports.deleteOne = ({order_id}) => {
-  return new Promise((resolve, reject) => {
-    db.run(`DELETE FROM orders WHERE order_id=${order_id}`, error => {
-      if (error) return reject(error);
-      resolve({id: this.lastID});
+    return new Promise((resolve, reject) => {
+        db.run(`DELETE FROM orders WHERE order_id=${order_id}`, error => {
+            if (error) return reject(error);
+            resolve({id: this.lastID});
+        });
     });
-  });
 };

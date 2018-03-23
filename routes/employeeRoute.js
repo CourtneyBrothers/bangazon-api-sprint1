@@ -1,13 +1,13 @@
 const { Router } = require("express");
-const custRouter = Router();
+const empRouter = Router();
 const { getAllEmployees, getOneEmployee, postOneEmployee, putOneEmployee } = require('../controllers/employeeCtrl');
 
 
 
 
-custRouter.get("/employees", getAllEmployees);
-custRouter.get("/employees/:id", getOneEmployee);
-custRouter.post("/employees",postOneEmployee);
-custRouter.put("/employees/:id",putOneEmployee);
+empRouter.get("/employees", getAllEmployees);
+empRouter.get("/employees/:id", getOneEmployee);
+empRouter.post("/employees",postOneEmployee);
+empRouter.put("/employees/:id",putOneEmployee);
 
-module.exports = custRouter;
+module.exports = empRouter;

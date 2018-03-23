@@ -31,9 +31,8 @@ module.exports.putOneProductType = (req, res, next) => {
     .catch( (err) => next(err));
 };
 module.exports.deleteOneProductType = (req, res, next) => {
-    deleteOne(req.body)
-    .then( (prodType) => {
-        res.status(200).json(prodType);
-    })
-    .catch( (err) => next(err));
+    let error = new Error("One does not simply delete Product Types");
+    error.status = 405;
+    console.log(error);
+    next(error);
 };

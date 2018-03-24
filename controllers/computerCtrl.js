@@ -17,7 +17,7 @@ module.exports.getOneComputer = ({ params: { id} }, res, next) => {
         if (computer) {
             res.status(200).json(computer);
         } else {
-            let error = new Error("Computer not found")
+            let error = new Error("Computer not found in database")
             next(error)
         }
     })

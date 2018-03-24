@@ -35,14 +35,20 @@ module.exports.postOneLive = ({purchase_date}) => {
 module.exports.postOneDead = ({purchase_date, decommission_date}) => {
     return new Promise((resolve, reject) => {
         db.run(`INSERT INTO computers VALUES (null, "${purchase_date}", "${decommission_date}"`, (err) => {
-            if (err) return reject(err)
-            resolve({id: this.lastID})
-        })
-    })
-}
-
+            if (err) return reject(err);
+            resolve({id: this.lastID});
+        });
+    });
+};
 
 // PUT
-
+module.exports.putOne = ({id}, {purchase_date, decommission_date}) => {
+    return new Promise((resolve, reject) => {
+        db.run(`UPDATE computers SET computer_id=${id}, purchase_date="${purchase_date}", decommission_date="${decommission_date}"`, (err) => {
+            if (err) return reject(err);
+            resolve({id: this.lastID});
+        });
+    });
+};
 
 

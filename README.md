@@ -58,3 +58,10 @@ example customer :
 } 
 
 replaces existing customer object with customer object from put method
+
+#### Query for Inactive Customers
+
+Run the following API query to view all customers who have no orders:
+```
+http://localhost:<port number>/api/v1/customers/?active=false
+```

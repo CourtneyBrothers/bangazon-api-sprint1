@@ -3,7 +3,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./bangazon.sqlite');
 
-
+// fetches all rows and columns of products table
 module.exports.getAll = () => {
     return new Promise((resolve, reject) => {
         db.all(`SELECT * FROM products`, (err, products) => {
@@ -13,6 +13,7 @@ module.exports.getAll = () => {
     });
 }
 
+// fetchs all columns of product row matching product_id passed into route params
 module.exports.getOne = (id) => {
     return new Promise((resolve, reject) => {
         db.get(`SELECT * FROM products WHERE products.product_id = ${id}`, 
@@ -23,6 +24,7 @@ module.exports.getOne = (id) => {
     });
 }
 
+// posts new row to product table with correlating JSON data passed into column values
 module.exports.postOne = ({ product_name, product_type, price, description, customer_id, listing_date}) => {
     return new Promise((resolve, reject) => {
         db.run(`INSERT INTO products VALUES(
@@ -40,6 +42,7 @@ module.exports.postOne = ({ product_name, product_type, price, description, cust
     });
 }
 
+// puts/overwrites data for all columns in product row specified by product_id in route params
 module.exports.putOne = (id, { product_name, product_type, price, description, customer_id, listing_date }) => {
     return new Promise((resolve, reject) => {
         db.run(`UPDATE products 
@@ -57,6 +60,7 @@ module.exports.putOne = (id, { product_name, product_type, price, description, c
     });
 }
 
+// deletes row from products match product_id to route param integer
 module.exports.deleteOne = (id) => {
     return new Promise((resolve, reject) => {
         db.run(`DELETE FROM products 
@@ -68,6 +72,7 @@ module.exports.deleteOne = (id) => {
     });
 }
 
+// pulls all rows from order_products that match product id passed into route params
 module.exports.productOnOrders = (id) => {
     return new Promise((resolve, reject) => {
         db.all(`SELECT * FROM order_products WHERE order_products.product_id = ${id}`,

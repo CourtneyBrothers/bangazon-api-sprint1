@@ -44,3 +44,16 @@ module.exports.putOne = ({id},{firstName,lastName,addressState,addressStreet,add
     });
   });
 }
+
+module.exports.getInactive = () => {
+  return new Promise((resolve, reject) => {
+    db.all(`SELECT c.*
+      FROM customers c
+      LEFT JOIN orders o ON o.customer_id=c.customer_id
+      WHERE o.customer_id IS NULL`, 
+      (err, cust) => {
+      if (err) return reject(err);
+      resolve(cust);
+    });
+  });
+}

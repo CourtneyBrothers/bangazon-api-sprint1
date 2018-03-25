@@ -1,12 +1,18 @@
 "use strict";
-const { getAll, getOne, postOne, putOne } = require('../models/Customer');
+const { getAll, getOne, postOne, putOne, getInactive } = require('../models/Customer');
 
 module.exports.getAllCustomers = (req, res, next) => {
-  getAll()
-  .then( (cust) => {
-    res.status(200).json(cust);
-  })
-  .catch( (err) => next(err));
+  if (req.url === "/customers/?active=false") {
+    getInactive()
+    .then((cust) => res.status(200).json(cust))
+    .catch((err) => next(err));
+  } else {
+    getAll()
+    .then( (cust) => {
+      res.status(200).json(cust);
+    })
+    .catch( (err) => next(err));
+  }
 };
 
 module.exports.getOneCustomer = ({params: {id}}, res, next) => {

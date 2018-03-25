@@ -32,11 +32,11 @@ module.exports.postOne = ({ product_type_name }) => {
     });
 };
 
-module.exports.putOne = ({ product_type_id, product_type_name }) => {
+module.exports.putOne = ({ product_type_name }, id) => {
     return new Promise((resolve, reject) => {
         db.run(`UPDATE product_types 
-                SET product_type_id = ${product_type_id}, product_type_name = "${product_type_name}"
-                WHERE product_type_id = ${product_type_id}`,
+                SET product_type_id = ${id}, product_type_name = "${product_type_name}"
+                WHERE product_type_id = ${id}`,
             (err) => {
                 if (err) reject(err);
                 resolve({ id: this.lastID });

@@ -27,7 +27,7 @@ module.exports.postOneProductType = (req, res, next) => {
 };
 
 module.exports.putOneProductType = (req, res, next) => {
-    putOne(req.body)
+    putOne(req.body, req.params.id)
         .then((prodType) => {
             res.status(200).json(prodType);
         })

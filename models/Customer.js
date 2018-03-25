@@ -45,6 +45,8 @@ module.exports.putOne = ({id},{firstName,lastName,addressState,addressStreet,add
   });
 }
 
+// joins customers and orders by customer_id 
+// selects all customers where customer_id is not found on orders table (NULL)
 module.exports.getInactive = () => {
   return new Promise((resolve, reject) => {
     db.all(`SELECT c.*

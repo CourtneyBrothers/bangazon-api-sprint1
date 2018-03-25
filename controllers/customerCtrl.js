@@ -1,6 +1,8 @@
 "use strict";
 const { getAll, getOne, postOne, putOne, getInactive } = require('../models/Customer');
 
+// if url matches stated query, runs model function to fetch all inactive customers
+// else, fetches all customers
 module.exports.getAllCustomers = (req, res, next) => {
   if (req.url === "/customers/?active=false") {
     getInactive()

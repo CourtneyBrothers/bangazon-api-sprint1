@@ -4,6 +4,7 @@ const { getAllTrainingPrograms, getOneTrainingProgram, postOneTrainingProgram, p
 
 trainProgramRouter.get('/training_programs', getAllTrainingPrograms);
 trainProgramRouter.get('/training_programs/:id', getOneTrainingProgram);
-trainProgramRouter.post('/training_programs', postOneTrainingProgram)
+trainProgramRouter.post('/training_programs', postOneTrainingProgram);
+trainProgramRouter.put('/training_programs', putOneTrainingProgram);
 
 module.exports = trainProgramRouter;

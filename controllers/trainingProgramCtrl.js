@@ -25,3 +25,12 @@ module.exports.postOneTrainingProgram = (req, res, next) => {
     })
     .catch( (err) => next(err));
 };
+
+module.exports.putOneTrainingProgram = (req, res, next) => {
+    console.log("put req.body", req.body);
+    putOne(req.body)
+    .then( (trainingProgram) => {
+        res.status(200).json(trainingProgram);
+    })
+    .catch( (err) => next(err));
+}

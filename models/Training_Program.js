@@ -29,5 +29,19 @@ module.exports.getOne = (id) => {
 }
 
 module.exports.postOne = ({ program_title, start_date, end_date, max_attendees }) => {
-    
+    return new Promise( (resolve, reject) => {
+        db.run(
+        `INSERT INTO training_programs
+        VALUES (${null},
+        "${program_title}", 
+        "${start_date}",
+        "${end_date}",
+        ${max_attendees}
+        )`,
+        (err) => {
+            if(err) return reject(err);
+            resolve({id: this.lastId});
+            }
+        );
+    });
 }

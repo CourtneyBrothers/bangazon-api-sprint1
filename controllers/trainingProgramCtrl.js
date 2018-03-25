@@ -17,3 +17,11 @@ module.exports.getOneTrainingProgram = (req, res, next) => {
     })
     .catch( (err) => next(err));
 };
+
+module.exports.postOneTrainingProgram = (req, res, next) => {
+    postOne(req.body)
+    .then( (trainingProgram) => {
+        res.status(200).json(trainingProgram);
+    })
+    .catch( (err) => next(err));
+};

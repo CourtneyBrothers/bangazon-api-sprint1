@@ -185,4 +185,67 @@ PUT:localhost:<_your_port_number>/api/v1/departments/_department_id_
 
 
 department object will replace the department object at the _department_id_ position specified in the http request 
->>>>>>> 833217fce9687eb0bbf4b0663f51f1dd0e7d7d92
+
+## TRAINING PROGRAMS
+
+Description
+This pull request gives developers API access to the Training Programs table and supports the following API calls:
+
+GET
+POST
+PUT
+DELETE
+Type of change
+ Bug fix (non-breaking change which fixes an issue)
+ New feature (non-breaking change which adds functionality)
+ Breaking change (fix or feature that would cause existing functionality to not work as expected)
+ This change requires a documentation update
+How Has This Been Tested?
+To test the GET API call run the following commands from the root folder:
+npm install
+node db/build_data.js
+node db/build_table.js
+nodemon app.js
+GET
+
+To test the GET API call use the following URL to get a list of all training programs.
+http://localhost:<definied port number>/api/v1/training_programs
+To test the GET API call use the following URL and enter in an Id integer to get back one specific program.
+http://localhost:<definied port number>/api/v1/training_programs/<id>
+POST
+To test the POST API call use postman to POST the following program object.
+
+{
+  "program_title": "Try really hard and stuff",
+  "start_date": "2019-02-17",
+  "end_date": "2020-07-07",
+  "max_attendees": 30
+}
+PUT
+To test the PUT API call use postman to update the previous POST with new information. Don't forget to include the ID within the URL:
+
+http://localhost:<port number>/api/v1/training_programs/<id>
+{
+  "program_title": "Try EXTRA hard in everything you do",
+  "start_date": "2020-02-17",
+  "end_date": "2020-07-07",
+  "max_attendees": 45
+}
+DELETE
+
+Users should only be able to delete training programs with future start dates.
+You can test this by deleting the training program you just added to the DB using the POST API call. Don't forget to add the id to the end of the URL.
+http://localhost:<port number>/api/v1/training_programs/<id>
+Attempt to delete any training program with a past start and you should get the following error:
+{
+    "message": "Error error error!",
+    "error": "This training program cannot be deleted, it's start date is not in the future"
+}
+DELETE will also remove any employee entries in the employee_training table for the deleted training program.
+You can test this by manually updating the start dates of an existing training that has employees enrolled in it. Set the start date to a future date, then delete the training program.
+Checklist:
+ My code follows the style guidelines of this project
+ I have performed a self-review of my own code
+ I have commented my code, particularly in hard-to-understand areas
+ I have made corresponding changes to the documentation
+ My changes generate no new warnings

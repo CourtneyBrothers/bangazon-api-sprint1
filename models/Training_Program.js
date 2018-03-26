@@ -66,18 +66,31 @@ module.exports.putOne = ({ program_id, program_title, start_date, end_date, max_
     });
 }
 
+// Function deletes the training program (when appropriate) from the training_programs table, then deletes the inidividual employee records for that applicable training from the employee_training table
 module.exports.deleteOne = (id) => {
     return new Promise( (resolve, reject) => {
-        db.run(
-        `DELETE
-        FROM training_programs
-        WHERE program_id = ${id}
-        `,
-        (err, trainingProgram) => {
-            if (err) return reject(err);
-            resolve(trainingProgram);
-            }
-        );
+        db.serialize( () => {
+            db.run(
+            `DELETE
+            FROM training_programs
+            WHERE program_id = ${id}
+            `,
+            (err, trainingProgram) => {
+                if (err) return reject(err);
+                resolve(trainingProgram);
+                }
+            );
+            db.run(
+                `DELETE
+                FROM employee_training
+                WHERE program_id = ${id}
+                `,
+                (err, trainingProgram) => {
+                    if (err) return reject(err);
+                    resolve(trainingProgram);
+                    }
+            );
+        });
     });
 }
 

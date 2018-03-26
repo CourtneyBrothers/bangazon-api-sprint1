@@ -27,7 +27,8 @@ module.exports.postOneTrainingProgram = (req, res, next) => {
 };
 
 module.exports.putOneTrainingProgram = (req, res, next) => {
-    putOne(req.body)
+    let trainingProgramId = req.params.id;
+    putOne(trainingProgramId, req.body)
     .then( (trainingProgram) => {
         res.status(200).json(trainingProgram);
     })

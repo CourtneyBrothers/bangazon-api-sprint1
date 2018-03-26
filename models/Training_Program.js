@@ -46,17 +46,16 @@ module.exports.postOne = ({ program_title, start_date, end_date, max_attendees }
     });
 }
 
-module.exports.putOne = ({ program_id, program_title, start_date, end_date, max_attendees }) => {
+module.exports.putOne = (id, { program_title, start_date, end_date, max_attendees }) => {
     return new Promise( (resolve, reject) => {
         db.run(
         `UPDATE training_programs
         SET
-        program_id = ${program_id},
         program_title = "${program_title}",
         start_date = "${start_date}",
         end_date = "${end_date}",
         max_attendees = ${max_attendees}
-        WHERE program_id = ${program_id}
+        WHERE program_id = ${id}
         `,
         (err, trainingProgram) => {
             if (err) return reject(err);

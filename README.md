@@ -62,6 +62,63 @@ example customer :
 
 replaces existing customer object with customer object from put method
 
+
+## PAYMENT TYPE API ACCESS
+
+Description
+This pull request allows developers to access the Payment Type data in our database using the following API calls:
+
+1. GET
+2. POST
+3. PUT
+4. DELETE (user receives 405)
+
+Type of change
+ Bug fix (non-breaking change which fixes an issue)
+ New feature (non-breaking change which adds functionality)
+ Breaking change (fix or feature that would cause existing functionality to not work as expected)
+ This change requires a documentation update
+How Has This Been Tested?
+In the project directory run the following commands:
+
+node db/build_data.js
+node db/build_table.js
+run nodemon app.js in the project directory
+
+GET
+
+Perform a GET API call to the following URL http://localhost:<port_number>/api/v1/payment_types to receive a JSON of all existing payment types
+Perform a GET API call to the following URL http://localhost:<port_number>/api/v1/payment_types/2 to receive a JSON of one particular payment type.
+
+POST
+
+To POST to the API make a POST API call to the aforementioned URL with the following JSON:
+{
+ "customer_id": 32,
+ "payment_option": "Moostercard",
+ "account_number": 12345677998810
+}
+
+PUT
+
+To PUT to the API make a PUT API call to the aforementioned URL with the following JSON, which will update "Moostercard" from the previous POST to "Mastercard". Users will only be able to update "payment_option", and "account_number":
+{
+ "payment_option": "Mastercard",
+ "account_number": 12345677998810
+}
+
+DELETE
+
+As a group we decided it would not be logical to allow a payment type to be deleted since payment types are only created once an order has been payed for, and therefore the payment type data is necessary to keep.
+When a user sends a payment type DELETE call to the API they will receive the following error message.
+
+You should receive the following error message:
+{"message":"Error error error!","error":"You are not authorized to delete an existing payment type"}
+
+
+#employee resource access 
+
+
 ## ORDERS
 # Description
 
@@ -115,6 +172,7 @@ http://localhost:8080/api/v1/orders/45
 
 ```
 ## EMPLOYEES 
+
 1) run nodemon app.js in project directory  
 
 2) to getAllEmployees visit http://localhost:<_your_port number>/api/v1/employees
@@ -140,3 +198,4 @@ employee will be added at next primary integer position to the list of employees
 PUT:localhost:<_your_port number>/api/v1/employees/_employee_id
 
 employee object will replace the employee object at the _employee_id position specified in the http request 
+

@@ -58,8 +58,8 @@ example customer :
 } 
 
 replaces existing customer object with customer object from put method
-
-8) Product Type Queries 
+ 
+## Product Type Queries 
 
 **GET**
 

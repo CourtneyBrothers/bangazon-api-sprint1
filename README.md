@@ -34,6 +34,7 @@ recommended to use through postman by passing in an object in the request body
 
 POST: localhost:<port number>/api/v1/customers/
 Example: 
+`
 {
 "firstName":"Lelia",
 "lastName":"Fritsch",
@@ -43,13 +44,16 @@ Example:
 "addressZip":"49855-5308",
 "accountCreationDate":"2018-03-22"
 } 
+`
 
 after navigation to http://localhost:<port number>/api/v1/customers the posted customer object will be at the bottom of the page
 
 5) putOneCustomer object
 
 PUT: localhost:<port number>/api/v1/customers/<customer_id>
-example customer : 
+example customer :
+
+` 
 {
 "firstName":"Lelia",
 "lastName":"Fritsch",
@@ -59,168 +63,15 @@ example customer :
 "addressZip":"49855-5308",
 "accountCreationDate":"2018-03-22"
 } 
-
+`
 replaces existing customer object with customer object from put method
 
-<<<<<<< HEAD
 #### Query for Inactive Customers
 
 Run the following API query to view all customers who have no orders:
 ```
 http://localhost:<port number>/api/v1/customers/?active=false
 ```
-=======
-### Products
-**GET**
-Please run the following query with a `GET` command to receive all products from the `products` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
-```
-http://localhost:<definied port number>/api/v1/product
-```
-
-To `GET` an individual product, please run the following query with the `product_id` inserted into the route parameters
-```
-http://localhost:<definied port number>/api/v1/product/<product id integer>
-``` 
-
-**POST**
-To add a product to the `products` table using your API testing tool, use `POST` method to the following query with your JSON formatted as such
-```
-http://localhost:<port#>/api/v1/product
-
-{
-	"productName": "automatic blinker fluid",
-	"productType": 3,
-	"price": 45666,
-	"description": "for when your car blinker just doesnt wanna blink any longer",
-	"customerId": 21,
-	"dateCreated": "2012-03-03"
-=======
-## Product Type API Access
- 
-**GET**
-
-Get all Product Types
-- To get all product types, use the `GET` method in your API Testing application and query the following URL: 
-
-```http://localhost:8080/api/v1/product_types```
-
-Get one Product Type
-- To get one product type, use the `GET` method in your API Testing application and query the following URL, replacing the ```<ID>``` with the id number of the product type you wish to query: 
-
-```http://localhost:8080/api/v1/product_types/<ID>```
-
-**POST**
-- To add a product type, use the `POST` method in your API Testing application and query the following url while providing the new product type in JSON format. Please see the example below:
-
- ```http://localhost:8080/api/v1/product_types```
-
-
-
-```
-{
-	"product_type_name": "what ever you'd like it to be"
-}
-```
-
-**PUT**
-Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `product` row by passing the `product_id` into the route parameters: 
-```
-http://localhost:8080/api/v1/orders/<product_id>
-```
-
-**DELETE**
-`DELETE` method on the `products` table will only work if the specified `product_id` is not found on any row with `order_products` table. 
-
-If the `product_id` matches to any row on `order_products` by running the following query, the proceeding message will be sent back:
-```
-http://localhost:8080/api/v1/product/<product_id>
-{
-    "message": "Error error error!",
-    "error": "This product can not be deleted""
-}
-```
-
-If the `product_id` does not match to any row on `order_products` by running the query, an empty JSON will be returned. Please check your database to ensure the specified `product_id` is no longer on the `products` table.
-
-- To update a product type, use the `PUT` method in your API Testing application and query the following url while replacing the ```<ID>``` with the id of the product type you wish to update. Then include the updated product name in your JSON post as seen below.
-
- ```http://localhost:8080/api/v1/product_types/<ID>```
-
-```
-{
-        "product_type_name": "new name"
-}
-```
-
-**DELETE**
-- The delete query will only work on a product type  that does not have any corresponding products referencing its product type id. 
-- To test, use the `DELETE` method in your API Testing application and query the following url,replacing ```<ID>``` with the product type id number that you wish to be deleted: 
-
-```http://localhost:8080/api/v1/product_types/<ID>```
-
-
-
-If the product type id does not have any corresponding products referencing it, the product type will be deleted from your database. Other wise, you will receive the following message:
-
-```
-{
-    "message": "Error error error!",
-    "error": "A Product Type may not be deleted if any Products using the Product Type's ID exist."
-}
-```
-
-## PAYMENT TYPE API ACCESS
-
-Description
-This pull request allows developers to access the Payment Type data in our database using the following API calls:
-
-1. GET
-2. POST
-3. PUT
-4. DELETE (user receives 405)
-
-Type of change
- Bug fix (non-breaking change which fixes an issue)
- New feature (non-breaking change which adds functionality)
- Breaking change (fix or feature that would cause existing functionality to not work as expected)
- This change requires a documentation update
-How Has This Been Tested?
-In the project directory run the following commands:
-
-node db/build_data.js
-node db/build_table.js
-run nodemon app.js in the project directory
-
-GET
-
-Perform a GET API call to the following URL http://localhost:<port_number>/api/v1/payment_types to receive a JSON of all existing payment types
-Perform a GET API call to the following URL http://localhost:<port_number>/api/v1/payment_types/2 to receive a JSON of one particular payment type.
-
-POST
-
-To POST to the API make a POST API call to the aforementioned URL with the following JSON:
-{
- "customer_id": 32,
- "payment_option": "Moostercard",
- "account_number": 12345677998810
-}
-
-PUT
-
-To PUT to the API make a PUT API call to the aforementioned URL with the following JSON, which will update "Moostercard" from the previous POST to "Mastercard". Users will only be able to update "payment_option", and "account_number":
-{
- "payment_option": "Mastercard",
- "account_number": 12345677998810
-}
-
-DELETE
-
-As a group we decided it would not be logical to allow a payment type to be deleted since payment types are only created once an order has been payed for, and therefore the payment type data is necessary to keep.
-When a user sends a payment type DELETE call to the API they will receive the following error message.
-
-You should receive the following error message:
-{"message":"Error error error!","error":"You are not authorized to delete an existing payment type"}
->>>>>>> master
 
 
 #employee resource access 
@@ -302,7 +153,99 @@ POST: localhost:<_your_port number>/api/v1/employees
 
 employee will be added at next primary integer position to the list of employees
 
-PUT:localhost:<_your_port number>/api/v1/employees/_employee_id
+PUT:localhost:<_your_port_number_>/api/v1/employees/_employee_id
 
 employee object will replace the employee object at the _employee_id position specified in the http request 
->>>>>>> master
+
+#department resource access 
+1) run nodemon app.js in project directory  
+
+2) to getAllDepartments visit http://localhost:<_your_port number>/api/v1/departments
+this should serve the customers JSON 
+
+3) to getOneDepartment visit http://localhost:<_your_port number>/api/v1/departments/_department_id_
+
+4)postOneDepartment
+
+recommended to use postman to pass department object 
+example: 
+`
+
+{
+"departmentName": "CARS",
+"supervisorId": 1,
+"budget": 14888
+}
+`
+department object will add the department object at the _department_id_ at the next position
+
+5) putOneDepartment
+
+PUT:localhost:<_your_port_number>/api/v1/departments/_department_id_
+
+
+department object will replace the department object at the _department_id_ position specified in the http request 
+
+## TRAINING PROGRAMS
+
+Description
+This pull request gives developers API access to the Training Programs table and supports the following API calls:
+
+GET
+POST
+PUT
+DELETE
+Type of change
+ Bug fix (non-breaking change which fixes an issue)
+ New feature (non-breaking change which adds functionality)
+ Breaking change (fix or feature that would cause existing functionality to not work as expected)
+ This change requires a documentation update
+How Has This Been Tested?
+To test the GET API call run the following commands from the root folder:
+npm install
+node db/build_data.js
+node db/build_table.js
+nodemon app.js
+GET
+
+To test the GET API call use the following URL to get a list of all training programs.
+http://localhost:<definied port number>/api/v1/training_programs
+To test the GET API call use the following URL and enter in an Id integer to get back one specific program.
+http://localhost:<definied port number>/api/v1/training_programs/<id>
+POST
+To test the POST API call use postman to POST the following program object.
+
+{
+  "program_title": "Try really hard and stuff",
+  "start_date": "2019-02-17",
+  "end_date": "2020-07-07",
+  "max_attendees": 30
+}
+PUT
+To test the PUT API call use postman to update the previous POST with new information. Don't forget to include the ID within the URL:
+
+http://localhost:<port number>/api/v1/training_programs/<id>
+{
+  "program_title": "Try EXTRA hard in everything you do",
+  "start_date": "2020-02-17",
+  "end_date": "2020-07-07",
+  "max_attendees": 45
+}
+DELETE
+
+Users should only be able to delete training programs with future start dates.
+You can test this by deleting the training program you just added to the DB using the POST API call. Don't forget to add the id to the end of the URL.
+http://localhost:<port number>/api/v1/training_programs/<id>
+Attempt to delete any training program with a past start and you should get the following error:
+{
+    "message": "Error error error!",
+    "error": "This training program cannot be deleted, it's start date is not in the future"
+}
+DELETE will also remove any employee entries in the employee_training table for the deleted training program.
+You can test this by manually updating the start dates of an existing training that has employees enrolled in it. Set the start date to a future date, then delete the training program.
+Checklist:
+ My code follows the style guidelines of this project
+ I have performed a self-review of my own code
+ I have commented my code, particularly in hard-to-understand areas
+ I have made corresponding changes to the documentation
+ My changes generate no new warnings

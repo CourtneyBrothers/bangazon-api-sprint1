@@ -102,15 +102,16 @@ recommended to use postman to pass department object
 example: 
 
 {
-"departmentId": "3",
 "departmentName": "CARS",
 "supervisorId": 1,
 "budget": 14888
 }
 
+department object will add the department object at the _department_id_ at the next position
 
 5) putOneDepartment
 
 PUT:localhost:<_your_port_number>/api/v1/departments/_department_id_
+
 
 department object will replace the department object at the _department_id_ position specified in the http request 

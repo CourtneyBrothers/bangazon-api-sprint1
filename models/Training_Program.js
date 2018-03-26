@@ -77,7 +77,7 @@ module.exports.deleteOne = (id) => {
             `,
             (err, trainingProgram) => {
                 if (err) return reject(err);
-                resolve(trainingProgram);
+                resolve(this.changes);
                 }
             );
             db.run(
@@ -87,7 +87,7 @@ module.exports.deleteOne = (id) => {
                 `,
                 (err, trainingProgram) => {
                     if (err) return reject(err);
-                    resolve(trainingProgram);
+                    resolve(this.changes);
                     }
             );
         });

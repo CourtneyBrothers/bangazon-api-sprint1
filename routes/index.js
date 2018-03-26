@@ -5,6 +5,9 @@ const router = Router();
 
 
 router.use(require('./products'));
+router.use(require('./product_types'));
+router.use(require('./payment_types'));
+router.use(require('./orders'));
 router.use(require('./customerRoute'));
 router.use(require('./employeeRoute'));
 

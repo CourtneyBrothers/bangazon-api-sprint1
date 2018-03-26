@@ -58,3 +58,60 @@ example customer :
 } 
 
 replaces existing customer object with customer object from put method
+
+8) Product Type Queries 
+
+**GET**
+
+Get all Product Types
+- To get all product types, use the `GET` method in your API Testing application and query the following URL: 
+
+```http://localhost:8080/api/v1/product_types```
+
+Get one Product Type
+- To get one product type, use the `GET` method in your API Testing application and query the following URL, replacing the ```<ID>``` with the id number of the product type you wish to query: 
+
+```http://localhost:8080/api/v1/product_types/<ID>```
+
+**POST**
+- To add a product type, use the `POST` method in your API Testing application and query the following url while providing the new product type in JSON format. Please see the example below:
+
+ ```http://localhost:8080/api/v1/product_types```
+
+
+
+```
+{
+	"product_type_name": "what ever you'd like it to be"
+}
+```
+
+**PUT**
+- To update a product type, use the `PUT` method in your API Testing application and query the following url while replacing the ```<ID>``` with the id of the product type you wish to update. Then include the updated product name in your JSON post as seen below.
+
+ ```http://localhost:8080/api/v1/product_types/<ID>```
+
+```
+{
+        "product_type_name": "new name"
+}
+```
+
+**DELETE**
+- The delete query will only work on a product type  that does not have any corresponding products referencing its product type id. 
+- To test, use the `DELETE` method in your API Testing application and query the following url,replacing ```<ID>``` with the product type id number that you wish to be deleted: 
+
+```http://localhost:8080/api/v1/product_types/<ID>```
+
+
+
+If the product type id does not have any corresponding products referencing it, the product type will be deleted from your database. Other wise, you will receive the following message:
+
+```
+{
+    "message": "Error error error!",
+    "error": "A Product Type may not be deleted if any Products using the Product Type's ID exist."
+}
+```
+
+END of Product Type Queries

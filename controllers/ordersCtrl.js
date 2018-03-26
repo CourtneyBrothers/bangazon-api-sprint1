@@ -34,7 +34,20 @@ module.exports.getOneOrder = ( { params: { id } }, res, next) => {
     getOne(id)
     .then(order => {
         if (order) {
-            res.status(200).json(order);
+            let productArray = [];
+            getProductsInOrder(id)
+            .then(prods => {
+                prods.forEach(prodId => {
+                    productModel.getOne(prodId)
+                        .then(productInfo => {
+                            productArray.push(productInfo);
+                        });
+                        order.products = productArray;
+                    });
+                    setTimeout(() => {
+                        res.status(200).json(order);
+                    }, 100);
+                });
         } else {
             let error = new Error("Order not found")
             next(error)

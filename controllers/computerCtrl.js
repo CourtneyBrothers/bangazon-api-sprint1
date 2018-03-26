@@ -35,11 +35,20 @@ module.exports.postOneComputer = (req, res, next) => {
 
 // PUT
 module.exports.putOneComputer = (req, res, next) => {
-    putOne(req.params, req.body)
+    getOne(req.params.id)
     .then(computer => {
-        res.status(200).json(computer)
+        if (computers.decommission_date === null) {
+            putOne(req.params, req.body)
+            .then(deadComputer => {
+                res.status(200).json(deadComputer)
+            })
+            .catch(err => next(err));
+        } else {
+            let error = new Error("This computer has already been decommissioned")
+            error.status = 409;
+            next(error);
+        }
     })
-    .catch(err => next(err));
 }
 
 // DELETE

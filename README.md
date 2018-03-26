@@ -92,14 +92,14 @@ The final step should start your server on the port you selected. You are now re
 **PUT**
 - To edit a current order, use the `PUT` method and go to **http://localhost:8080/api/v1/orders/<ORDER ID NUMBER>** and add the `order_id` you want to edit the content for. Here is my example:
 ```
-http://localhost:8080/api/v1/orders/92
+http://localhost:8080/api/v1/orders/45
 
 {
-	"customer_id":85,
+	"customer_id":65,
 	"payment_type":26
 }
 ```
-- This will update the data so that the order with an `order_id` of 92, now has a `customer_id` of 85, and the same `payment_type` of 26
+- This will update the data so that the order with an `order_id` of 45, now has a `customer_id` of 65, and the same `payment_type` of 26
 
 **DELETE**
 - The delete method will only work on an order that has an existing `order_id`, and has a `payment_type` of `NULL`
@@ -109,4 +109,5 @@ http://localhost:8080/api/v1/orders/92
     "message": "Error error error!",
     "error": "You cannot delete an order that has been completed"
 }
+
 ```

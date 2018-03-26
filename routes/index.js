@@ -10,5 +10,5 @@ router.use(require('./payment_types'));
 router.use(require('./orders'));
 router.use(require('./customerRoute'));
 router.use(require('./employeeRoute'));
-
+router.use(require('./departmentRoute'));
 module.exports = router;

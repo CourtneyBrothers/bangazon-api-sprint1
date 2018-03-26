@@ -65,3 +65,19 @@ module.exports.putOne = ({ program_id, program_title, start_date, end_date, max_
         );
     });
 }
+
+module.exports.deleteOne = (id) => {
+    return new Promise( (resolve, reject) => {
+        db.run(
+        `DELETE
+        FROM training_programs
+        WHERE program_id = ${id}
+        `,
+        (err, trainingProgram) => {
+            if (err) return reject(err);
+            resolve(trainingProgram);
+            }
+        );
+    });
+}
+

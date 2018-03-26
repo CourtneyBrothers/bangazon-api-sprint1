@@ -62,6 +62,14 @@ example customer :
 
 replaces existing customer object with customer object from put method
 
+<<<<<<< HEAD
+#### Query for Inactive Customers
+
+Run the following API query to view all customers who have no orders:
+```
+http://localhost:<port number>/api/v1/customers/?active=false
+```
+=======
 ### Products
 **GET**
 Please run the following query with a `GET` command to receive all products from the `products` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
@@ -297,3 +305,4 @@ employee will be added at next primary integer position to the list of employees
 PUT:localhost:<_your_port number>/api/v1/employees/_employee_id
 
 employee object will replace the employee object at the _employee_id position specified in the http request 
+>>>>>>> master

@@ -12,8 +12,7 @@ module.exports.generateEmployeeTraining = () => {
             employeeTraining.push({
                 trainingProgram,
                 employeeId
-            })
-            ƒ
+            });
         }
 
     }

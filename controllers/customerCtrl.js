@@ -26,7 +26,6 @@ module.exports.postOneCustomer = (req, res, next) => {
 }
 
 module.exports.putOneCustomer = (req, res, next) => {
-  console.log("params body request id",req.params, req.body);
   putOne(req.params, req.body)
   .then( (cust) => {
     res.status(200).json(cust);

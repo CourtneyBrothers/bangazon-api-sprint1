@@ -4,6 +4,8 @@ const { getAll, getOne, postOne, putOne, deleteOne, getProductsInOrder } = requi
 const productModel = require('../models/Product');
 // GET
 
+
+//gets all orders, then querys our join table referencing the order id, then querys products based on the product id received from the join table. The product data is then added to the appropriate Order as a property.
 module.exports.getAllOrders = (req, res, next) => {
     getAll()
     .then(orders => {

@@ -74,12 +74,13 @@ this should serve the customers JSON
 
 recommended to use postman to pass employee object 
 example: 
-{
-firstName: "Afton",
-lastName: "Kessler",
-deptIdd: 10
-}
 
+{
+"firstName": "Afton",
+"lastName": "Kessler",
+"deptId": 10
+}
+`
 POST: localhost:<_your_port number>/api/v1/employees
 
 employee will be added at next primary integer position to the list of employees

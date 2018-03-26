@@ -34,6 +34,7 @@ recommended to use through postman by passing in an object in the request body
 
 POST: localhost:<port number>/api/v1/customers/
 Example: 
+`
 {
 "firstName":"Lelia",
 "lastName":"Fritsch",
@@ -43,13 +44,16 @@ Example:
 "addressZip":"49855-5308",
 "accountCreationDate":"2018-03-22"
 } 
+`
 
 after navigation to http://localhost:<port number>/api/v1/customers the posted customer object will be at the bottom of the page
 
 5) putOneCustomer object
 
 PUT: localhost:<port number>/api/v1/customers/<customer_id>
-example customer : 
+example customer :
+
+` 
 {
 "firstName":"Lelia",
 "lastName":"Fritsch",
@@ -59,7 +63,7 @@ example customer :
 "addressZip":"49855-5308",
 "accountCreationDate":"2018-03-22"
 } 
-
+`
 replaces existing customer object with customer object from put method
 
 #employee resource access 
@@ -74,11 +78,14 @@ this should serve the customers JSON
 
 recommended to use postman to pass employee object 
 example: 
+
+`
 {
 firstName: "Afton",
 lastName: "Kessler",
 deptId: 10
 }
+`
 
 POST: localhost:<_your_port_number_>/api/v1/employees
 
@@ -100,13 +107,14 @@ this should serve the customers JSON
 
 recommended to use postman to pass department object 
 example: 
+`
 
 {
 "departmentName": "CARS",
 "supervisorId": 1,
 "budget": 14888
 }
-
+`
 department object will add the department object at the _department_id_ at the next position
 
 5) putOneDepartment

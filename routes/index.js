@@ -9,8 +9,9 @@ router.use(require('./product_types'));
 router.use(require('./payment_types'));
 router.use(require('./orders'));
 router.use(require('./customerRoute'));
-router.use(require('./training_programs'));
+router.use(require('./computers'));
 router.use(require('./employeeRoute'));
+router.use(require('./training_programs'));
 router.use(require('./departmentRoute'));
 
 

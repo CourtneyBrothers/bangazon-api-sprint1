@@ -5,7 +5,7 @@ const { getAllPaymentTypes, getOnePaymentType, postOnePaymentType, putOnePayment
 payTypeRouter.get('/payment_types', getAllPaymentTypes);
 payTypeRouter.get('/payment_types/:id', getOnePaymentType);
 payTypeRouter.post('/payment_types', postOnePaymentType);
-payTypeRouter.put('/payment_types', putOnePaymentType);
+payTypeRouter.put('/payment_types/:id', putOnePaymentType);
 payTypeRouter.delete('/payment_types', deleteOnePaymentType);
 
 

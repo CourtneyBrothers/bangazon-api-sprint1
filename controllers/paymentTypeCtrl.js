@@ -27,7 +27,8 @@ module.exports.postOnePaymentType = (req, res, next) => {
 }
 
 module.exports.putOnePaymentType = (req, res, next) => {
-    putOne(req.body)
+    let paymentId = req.params.id;
+    putOne(paymentId, req.body)
     .then( (paymentType) => {
         res.status(200).json(paymentType)
     })

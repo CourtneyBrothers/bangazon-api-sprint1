@@ -37,7 +37,7 @@ module.exports.postOneComputer = (req, res, next) => {
 module.exports.putOneComputer = (req, res, next) => {
     getOne(req.params.id)
     .then(computer => {
-        if (computers.decommission_date === null) {
+        if (computer.decommission_date === null) {
             putOne(req.params, req.body)
             .then(deadComputer => {
                 res.status(200).json(deadComputer)

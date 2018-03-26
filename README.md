@@ -63,7 +63,7 @@ example customer :
 replaces existing customer object with customer object from put method
 
 ## Product Type API Access
-
+ 
 **GET**
 
 Get all Product Types
@@ -252,7 +252,4 @@ employee will be added at next primary integer position to the list of employees
 PUT:localhost:<_your_port number>/api/v1/employees/_employee_id
 
 employee object will replace the employee object at the _employee_id position specified in the http request 
-<<<<<<< HEAD
-=======
 
->>>>>>> master

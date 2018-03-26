@@ -27,24 +27,27 @@ module.exports.getOneOrder = ( { params: { id } }, res, next) => {
 module.exports.getOrdersProducts = (req, res, next) => {
     getAll()
     .then(orders => {
-        let ordersArray = orders.map(order => {
+        let ordersArray = [];
+        orders.forEach(order => {
             let productArray = [];
             getProductsInOrder(order.order_id)
             .then(prods => {
                 prods.forEach(prodId => {
                     productModel.getOne(prodId)
                     .then(productInfo => {
-                        productArray.push(productInfo);
-                        order.products = productArray;
-                         
+                        productArray.push(productInfo); 
                     })
                     console.log(productArray);
+                    order.products = productArray;
                 })
             })
-            // console.log(productArray);
-           return order;
+
+            ordersArray.push(order);
         });
-        res.status(200).json(ordersArray);
+        setTimeout(function(){
+            res.status(200).json(ordersArray);
+        },
+    100);
     })
     .catch(err => next(err));
 };

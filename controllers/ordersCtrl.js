@@ -3,10 +3,29 @@
 const { getAll, getOne, postOne, putOne, deleteOne, getProductsInOrder } = require("../models/Order");
 const productModel = require('../models/Product');
 // GET
+
 module.exports.getAllOrders = (req, res, next) => {
     getAll()
     .then(orders => {
-        res.status(200).json(orders);
+        let ordersArray = [];
+        orders.forEach(order => {
+            let productArray = [];
+            getProductsInOrder(order.order_id)
+            .then(prods => {
+                prods.forEach(prodId => {
+                    productModel.getOne(prodId)
+                    .then(productInfo => {
+                        productArray.push(productInfo); 
+                    })
+                    order.products = productArray;
+                })
+            })
+            ordersArray.push(order);
+        });
+        setTimeout(function(){
+            res.status(200).json(ordersArray);
+        },
+    100);
     })
     .catch(err => next(err));
 };
@@ -24,33 +43,6 @@ module.exports.getOneOrder = ( { params: { id } }, res, next) => {
     .catch(err => next(err));  
 };
 
-module.exports.getOrdersProducts = (req, res, next) => {
-    getAll()
-    .then(orders => {
-        let ordersArray = [];
-        orders.forEach(order => {
-            let productArray = [];
-            getProductsInOrder(order.order_id)
-            .then(prods => {
-                prods.forEach(prodId => {
-                    productModel.getOne(prodId)
-                    .then(productInfo => {
-                        productArray.push(productInfo); 
-                    })
-                    console.log(productArray);
-                    order.products = productArray;
-                })
-            })
-
-            ordersArray.push(order);
-        });
-        setTimeout(function(){
-            res.status(200).json(ordersArray);
-        },
-    100);
-    })
-    .catch(err => next(err));
-};
 // POST
 module.exports.postOneOrder = (req, res, next) => {
     postOne(req.body)

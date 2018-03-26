@@ -80,10 +80,37 @@ lastName: "Kessler",
 deptId: 10
 }
 
-POST: localhost:<_your_port number>/api/v1/employees
+POST: localhost:<_your_port_number_>/api/v1/employees
 
 employee will be added at next primary integer position to the list of employees
 
-PUT:localhost:<_your_port number>/api/v1/employees/_employee_id
+PUT:localhost:<_your_port_number_>/api/v1/employees/_employee_id
 
 employee object will replace the employee object at the _employee_id position specified in the http request 
+
+#department resource access 
+1) run nodemon app.js in project directory  
+
+2) to getAllDepartments visit http://localhost:<_your_port number>/api/v1/departments
+this should serve the customers JSON 
+
+3) to getOneDepartment visit http://localhost:<_your_port number>/api/v1/departments/_department_id_
+
+4)postOneDepartment
+
+recommended to use postman to pass department object 
+example: 
+
+{
+"departmentId": "3",
+"departmentName": "CARS",
+"supervisorId": 1,
+"budget": 14888
+}
+
+
+5) putOneDepartment
+
+PUT:localhost:<_your_port_number>/api/v1/departments/_department_id_
+
+department object will replace the department object at the _department_id_ position specified in the http request 

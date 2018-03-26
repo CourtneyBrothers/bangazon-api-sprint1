@@ -22,11 +22,14 @@ db/build_table.js
 ## API usage
 
 1) run nodemon app.js in the project directory
+
+#For access to customer resource:
+
 2) to getAllCustomers visit http://localhost:<port number>/api/v1/customers 
 this should serve the customers JSON 
-5) to get getOneCustomer visit http://localhost:<port number>/api/v1/customers/<customer_id>
+3) to get getOneCustomer visit http://localhost:<port number>/api/v1/customers/<customer_id>
 this should return the properties of the customer with the corresponding customer_id
-6) postOneCustomer 
+4) postOneCustomer 
 recommended to use through postman by passing in an object in the request body 
 
 POST: localhost:<port number>/api/v1/customers/
@@ -43,7 +46,7 @@ Example:
 
 after navigation to http://localhost:<port number>/api/v1/customers the posted customer object will be at the bottom of the page
 
-7) putOneCustomer object
+5) putOneCustomer object
 
 PUT: localhost:<port number>/api/v1/customers/<customer_id>
 example customer : 
@@ -108,13 +111,35 @@ DELETE
 
 As a group we decided it would not be logical to allow a payment type to be deleted since payment types are only created once an order has been payed for, and therefore the payment type data is necessary to keep.
 When a user sends a payment type DELETE call to the API they will receive the following error message.
-Send the DELETE call to the API:
 
-{
- "payment_id": 34,
- "customer_id": 32,
- "payment_option": "Mastercard",
- "account_number": 12345677998810
-}
 You should receive the following error message:
 {"message":"Error error error!","error":"You are not authorized to delete an existing payment type"}
+
+
+#employee resource access 
+1) run nodemon app.js in project directory  
+
+2) to getAllEmployees visit http://localhost:<_your_port number>/api/v1/employees
+this should serve the customers JSON 
+
+3) to getOneEmployee  visit http://localhost:<_your_port number>/api/v1/employees/_employee_id
+
+4)postOneEmployee
+
+recommended to use postman to pass employee object 
+example: 
+
+{
+"firstName": "Afton",
+"lastName": "Kessler",
+"deptId": 10
+}
+`
+POST: localhost:<_your_port number>/api/v1/employees
+
+employee will be added at next primary integer position to the list of employees
+
+PUT:localhost:<_your_port number>/api/v1/employees/_employee_id
+
+employee object will replace the employee object at the _employee_id position specified in the http request 
+

@@ -5,5 +5,5 @@ const router = Router();
 
 router.use(require('./payment_types'));
 router.use(require('./customerRoute'));
-
+router.use(require('./employeeRoute'));
 module.exports = router;

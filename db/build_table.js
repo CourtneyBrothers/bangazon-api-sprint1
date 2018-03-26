@@ -53,14 +53,14 @@ db.serialize(() => {
             product_type_id INTEGER PRIMARY KEY,
             product_type_name TEXT
         )`,
-            () => {
-                prodTypeData.productTypes.forEach(({ product_type, product_id}) => {
-                    db.run(`INSERT INTO product_types VALUES(
+        () => {
+            prodTypeData.productTypes.forEach(({ product_type, product_id }) => {
+                db.run(`INSERT INTO product_types VALUES(
                         ${product_id},
                         "${product_type}"
                     )`);
             });
-    });
+        });
     db.run(`DROP TABLE IF EXISTS payment_types`)
     db.run(
         `CREATE TABLE IF NOT EXISTS payment_types (
@@ -77,8 +77,8 @@ db.serialize(() => {
                         "${paymentOption}",
                         ${accountNumber}
                     )`);
+            });
         });
-    });
     db.run(`DROP TABLE IF EXISTS products`)
     db.run(
         `CREATE TABLE IF NOT EXISTS products (
@@ -91,7 +91,7 @@ db.serialize(() => {
             listing_date TEXT
         )`,
         () => {
-            prodData.forEach(({ productName,productType,price,description,customerId,dateCreated }) => {
+            prodData.forEach(({ productName, productType, price, description, customerId, dateCreated }) => {
                 db.run(`INSERT INTO products VALUES(
                         ${null},
                         "${productName}",
@@ -112,42 +112,42 @@ db.serialize(() => {
             FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
             FOREIGN KEY (payment_type) REFERENCES payment_types(payment_id) 
         )`,
-            ()=>{
-                for (let i=1;i<=15;i++){
-                    db.run(`INSERT INTO orders VALUES (
+        () => {
+            for (let i = 1; i <= 15; i++) {
+                db.run(`INSERT INTO orders VALUES (
                         ${null},
                         ${i},
                         null
                     )`);
-                }
-                db.all(`SELECT payment_id, customer_id FROM payment_types`,
-                    (err, paymentTypes) => {
-                        if (err) return reject(err);
-                        paymentTypes.forEach(payment => {
-                            db.run(`INSERT INTO orders VALUES(
+            }
+            db.all(`SELECT payment_id, customer_id FROM payment_types`,
+                (err, paymentTypes) => {
+                    if (err) return reject(err);
+                    paymentTypes.forEach(payment => {
+                        db.run(`INSERT INTO orders VALUES(
                                 ${null},
                                 ${payment.customer_id},
                                 ${payment.payment_id}
                         )`);
                     });
                 });
-            }
+        }
     );
     db.run(`DROP TABLE IF EXISTS order_products`);
     db.run(`CREATE TABLE IF NOT EXISTS order_products (
         line_id INTEGER,
         order_id INTEGER,
         product_id INTEGER
-    )`, 
-        ()=>{
-            for (let i=1;i<=140;i++) {
+    )`,
+        () => {
+            for (let i = 1; i <= 140; i++) {
                 db.run(`INSERT INTO order_products VALUES (
                         ${i},
-                        ${faker.random.number({min:1,max:45})},
-                        ${faker.random.number({ min:1, max:120 })}
+                        ${faker.random.number({ min: 1, max: 45 })},
+                        ${faker.random.number({ min: 1, max: 120 })}
                 )`);
             }
-    });
+        });
 });
 
 
@@ -177,8 +177,8 @@ db.serialize(() => {
         purchase_date TEXT,
         decommission_date TEXT
     )`,
-        ()=>{
-            compActiveData.forEach(({purchaseDate})=>{
+        () => {
+            compActiveData.forEach(({ purchaseDate }) => {
                 db.run(`INSERT INTO computers VALUES(${null}, "${purchaseDate}", null)`)
             });
             compDeadData.forEach(({ purchaseDate, decommissionDate }) => {
@@ -194,9 +194,9 @@ db.serialize(() => {
         end_date TEXT,
         max_attendees INTEGER
     )`,
-        ()=>{
-            trainingData.forEach(({programTitle,startDate,endDate,maxAttendees})=>{
-               db.run(`INSERT INTO training_programs VALUES(
+        () => {
+            trainingData.forEach(({ programTitle, startDate, endDate, maxAttendees }) => {
+                db.run(`INSERT INTO training_programs VALUES(
                    ${null},
                    "${programTitle}",
                    "${startDate}",
@@ -223,7 +223,7 @@ db.serialize(() => {
                )`);
             });
         }
-    ); 
+    );
     db.run(`DROP TABLE IF EXISTS employee_training`);
     db.run(`CREATE TABLE IF NOT EXISTS employee_training (
         line_id INTEGER,
@@ -231,12 +231,12 @@ db.serialize(() => {
         program_id INTEGER
     )`,
         () => {
-            for (let i=0; i <empTrainData.length; i++){
+            for (let i = 0; i < empTrainData.length; i++) {
                 db.run(`INSERT INTO employee_training VALUES (
                     ${i + 1},
                     ${empTrainData[i].employeeId},
                     ${empTrainData[i].trainingProgram}
-                )`) 
+                )`)
             }
         });
     db.run(`DROP TABLE IF EXISTS employee_computers`);
@@ -246,17 +246,17 @@ db.serialize(() => {
         employee_id INTEGER,
         start_date TEXT,
         end_date TEXT
-    )`,()=>{
-        empCompData.forEach(({lineId, computerId, employeeId, startDate, endDate})=>{
-            db.run(`INSERT INTO employee_computers VALUES (
+    )`, () => {
+            empCompData.forEach(({ lineId, computerId, employeeId, startDate, endDate }) => {
+                db.run(`INSERT INTO employee_computers VALUES (
                 ${lineId},
                 ${computerId},
                 ${employeeId},
                 "${startDate}",
                 "${endDate}"
             )`)
+            })
         })
-    })
 });
 
 

@@ -57,15 +57,3 @@ module.exports.deleteOne = (id) => {
         })  
     })
 };
-
-module.exports.getOneActive = (id) => {
-    return new Promise((resolve, reject) => {
-        db.get(
-            `SELECT * FROM orders WHERE order_id = ${id}`,
-            (err, orders) => {
-                if (err) return reject(err);
-                resolve(orders);
-            }
-        );
-    });
-  };

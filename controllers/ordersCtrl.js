@@ -1,6 +1,6 @@
 "use strict";
 
-const { getAll, getOne, postOne, putOne, deleteOne, getOneActive } = require("../models/Order");
+const { getAll, getOne, postOne, putOne, deleteOne } = require("../models/Order");
 
 // GET
 module.exports.getAllOrders = (req, res, next) => {
@@ -44,7 +44,7 @@ module.exports.putOneOrder = (req, res, next) => {
 
 // DELETE
 module.exports.deleteOneOrder = (req, res, next) => {
-    getOneActive(req.params.id)
+    getOne(req.params.id)
     .then(orders => {
         if (orders.payment_type === null) {
             deleteOne(req.params.id)

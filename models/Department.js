@@ -17,7 +17,7 @@ module.exports.getAll = () => {
 
 module.exports.getOne = (id) => {
   return new Promise( (resolve, reject) => {
-    db.all(`SELECT * FROM departments WHERE department_id = "${id}"`, (err, dept) => {
+    db.all(`SELECT * FROM departments WHERE department_id = ${id}`, (err, dept) => {
       if (err) return reject(err);
       resolve(dept);
     });

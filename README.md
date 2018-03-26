@@ -75,9 +75,9 @@ this should serve the customers JSON
 recommended to use postman to pass employee object 
 example: 
 {
-first_name: "Afton",
-last_name: "Kessler",
-dept_id: 10
+firstName: "Afton",
+lastName: "Kessler",
+deptIdd: 10
 }
 
 POST: localhost:<_your_port number>/api/v1/employees

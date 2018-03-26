@@ -6,6 +6,6 @@ const router = Router();
 
 router.use(require('./products'));
 router.use(require('./customerRoute'));
-
+router.use(require('./employeeRoute'));
 
 module.exports = router;

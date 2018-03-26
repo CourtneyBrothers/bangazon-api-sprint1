@@ -1,6 +1,6 @@
 'use strict';
 
-const { getAll, getOne, postOneLive, postOneDead, putOne } = require('../models/Computer');
+const { getAll, getOne, postOne, putOne } = require('../models/Computer');
 
 // GET
 module.exports.getAllComputers = (req, res, next) => {
@@ -25,17 +25,8 @@ module.exports.getOneComputer = ({ params: { id} }, res, next) => {
 };
 
 // POST LIVE
-module.exports.postOneLiveComputer = (req, res, next) => {
-    postOneLive(req.body)
-    .then(computer => {
-        res.status(200).json(computer)
-    })
-    .catch(err => next(err));
-};
-
-// POST DEAD
-module.exports.postOneDeadComputer = (req, res, next) => {
-    postOneDead(req.body)
+module.exports.postOneComputer = (req, res, next) => {
+    postOne(req.body)
     .then(computer => {
         res.status(200).json(computer)
     })

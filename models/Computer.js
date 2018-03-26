@@ -23,18 +23,9 @@ module.exports.getOne = id => {
 };
 
 // POST
-module.exports.postOneLive = ({purchase_date}) => {
+module.exports.postOne = ({purchase_date}) => {
     return new Promise((resolve, reject) => {
         db.run(`INSERT INTO computers VALUES (null, "${purchase_date}", null)`, (err) => {
-            if (err) return reject(err);
-            resolve({id: this.lastID});
-        });
-    });
-};
-
-module.exports.postOneDead = ({purchase_date, decommission_date}) => {
-    return new Promise((resolve, reject) => {
-        db.run(`INSERT INTO computers VALUES (null, "${purchase_date}", "${decommission_date}"`, (err) => {
             if (err) return reject(err);
             resolve({id: this.lastID});
         });
@@ -52,7 +43,6 @@ module.exports.putOne = ({id}, {purchase_date, decommission_date}) => {
 
         })
     };
-
 
 // DELETE
 // No delete functionality - computers cannot be deleted from the system

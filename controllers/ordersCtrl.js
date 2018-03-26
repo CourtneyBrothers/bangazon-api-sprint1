@@ -1,7 +1,7 @@
 "use strict";
 
-const { getAll, getOne, postOne, putOne, deleteOne } = require("../models/Order");
-
+const { getAll, getOne, postOne, putOne, deleteOne, getProductsInOrder } = require("../models/Order");
+const productModel = require('../models/Product');
 // GET
 module.exports.getAllOrders = (req, res, next) => {
     getAll()
@@ -24,6 +24,30 @@ module.exports.getOneOrder = ( { params: { id } }, res, next) => {
     .catch(err => next(err));  
 };
 
+module.exports.getOrdersProducts = (req, res, next) => {
+    getAll()
+    .then(orders => {
+        let ordersArray = orders.map(order => {
+            let productArray = [];
+            getProductsInOrder(order.order_id)
+            .then(prods => {
+                prods.forEach(prodId => {
+                    productModel.getOne(prodId)
+                    .then(productInfo => {
+                        productArray.push(productInfo);
+                        order.products = productArray;
+                         
+                    })
+                    console.log(productArray);
+                })
+            })
+            // console.log(productArray);
+           return order;
+        });
+        res.status(200).json(ordersArray);
+    })
+    .catch(err => next(err));
+};
 // POST
 module.exports.postOneOrder = (req, res, next) => {
     postOne(req.body)

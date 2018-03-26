@@ -25,6 +25,19 @@ module.exports.getOne = id => {
     });
 };
 
+module.exports.getProductsInOrder = (id) => {
+    return new Promise(( resolve, reject) => {
+        db.all(`SELECT product_id
+                FROM order_products AS op
+                WHERE op.order_id = ${id}`,
+                (err, prods) => {
+                    if (err) return reject(err);
+                    let allProdIds = prods.map(prod => prod.product_id);
+                    resolve(allProdIds);
+                });
+    });
+}
+
 // POST
 module.exports.postOne = ({customer_id, payment_type}) => {
     return new Promise((resolve, reject) => {

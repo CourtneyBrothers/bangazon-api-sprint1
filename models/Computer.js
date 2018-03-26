@@ -44,11 +44,16 @@ module.exports.postOneDead = ({purchase_date, decommission_date}) => {
 // PUT
 module.exports.putOne = ({id}, {purchase_date, decommission_date}) => {
     return new Promise((resolve, reject) => {
-        db.run(`UPDATE computers SET computer_id=${id}, purchase_date="${purchase_date}", decommission_date="${decommission_date}"`, (err) => {
-            if (err) return reject(err);
+        db.serialize( () => {
+            db.run(`UPDATE computers SET computer_id=${id}, purchase_date="${purchase_date}", decommission_date="${decommission_date}" WHERE computer_id=${id}`);
+            db.run(`UPDATE employee_computers SET computer_id=${id}, end_date="${decommission_date}" WHERE computer_id =${id}`)
             resolve({id: this.lastID});
-        });
-    });
-};
+            });
 
+        })
+    };
+
+
+// DELETE
+// No delete functionality - computers cannot be deleted from the system
 

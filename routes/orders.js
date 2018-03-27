@@ -2,7 +2,7 @@
 
 const { Router } = require('express');
 const ordersRouter = Router();
-const { getAllOrders, getOneOrder, postOneOrder, putOneOrder, deleteOneOrder } = require('../controllers/ordersCtrl');
+const { getAllOrders, getOneOrder, postOneOrder, putOneOrder, deleteOneOrder, getOrdersProducts } = require('../controllers/ordersCtrl');
 
 ordersRouter.get('/orders', getAllOrders);
 ordersRouter.get('/orders/:id', getOneOrder);

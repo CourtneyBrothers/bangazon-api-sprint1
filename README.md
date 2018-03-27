@@ -36,6 +36,14 @@ To `GET` an individual customer, please run the following query with the `custom
 http://localhost:8080/api/v1/customers/<customer id integer>
 ```
 
+**Query for inactive customers**
+
+Run the following API query to view all customers who have no orders:
+```
+http://localhost:<port number>/api/v1/customers/?active=false
+```
+
+
 **POST**
 
 To add a new customer to the `customers` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such:
@@ -224,8 +232,6 @@ http://localhost:8080/api/v1/orders/<order_id>
 
 If the order that you try to delete is currently active (I.E. has a `payment_type` of `NULL` on the `orders` table), it will successfully delete from the `orders` table. It will also simultaneously delete any rows from the `order_products` table with the corresponding `order_id`. 
 
-
-
 ### PRODUCT TYPE
 
 **GET**
@@ -352,61 +358,92 @@ The `DELETE` method on the `departments` table will not delete any rows from `de
 
 **GET**
 
+Please run the following query with a `GET` command to receive all computers from the `computers` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/computers
+```
 
+To `GET` an individual computer, please run the following query with the `computer_id` inserted into the route parameters:
+```
+http://localhost:8080/api/v1/computers/<computer_id>
+```
 
 **POST**
 
+To add a computer to the `computers` table using your API testing tool, use the `computers` method to the following query with your JSON formatted as such:
+```
+{
+  "purchase_date":"2010-01-01"
+}
+```
 
+Note: The user can only add a new computer with a `purchase_date` and no `decommissioned_date` because the user cannot add a computer retroactively to the database. 
 
 **PUT**
 
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `computers` row by passing the `computer_id` into the route parameters. Users will only be able to update the `decommission_date`, and if a computer is already decommissioned, the user cannot add a new `decommission_date`:
+```
+http://localhost:8080/api/v1/computers/<computer_id>
 
+{
+  "decommission_date": "2010-01-01"
+}
+```
 
 **DELETE**
 
+The `DELETE` method on the `computers` table will not delete any rows from `computers` in accordance to the table's fundamental relation to the database. However, if a computer becomes decommissioned, the `PUT` method can be used to add a `decommission_date` to the row, and that will be edited on the `employee_computer` join table as well. The API will `INSERT` into `employee_computer` an end date where `employee_computer.end_date = NULL` and `employee_computer.computer_id = <specified computer_id>`.
 
 ### TRAINING PROGRAM
 
 **GET**
 
+Please run the following query with a `GET` command to receive all training programs from the `training_programs` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/training_programs
+```
 
+To `GET` an individual training program, please run the following query with the `program_id` inserted into the route parameters:
+```
+http://localhost:8080/api/v1/training_programs/<program_id>
+```
 
 **POST**
 
-
+To add a training program to the `training_programs` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such:
+ ```
+ {
+   "program_title": "Try really hard and stuff",
+   "start_date": "2019-02-17",
+   "end_date": "2020-07-07",
+   "max_attendees": 30
+ }
+ ```
 
 **PUT**
 
-
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `training_program` row by passing the `program_id` into the route parameters. Users will only be able to update `program_title`, `start_date`, `end_date`, and `max_attendees`, as the `program_id` is automatically generated:
+```
+{
+  "program_title": "Try EXTRA hard in everything you do",
+  "start_date": "2020-02-17",
+  "end_date": "2020-07-07",
+  "max_attendees": 45
+}
+```
+After refreshing the database, the existing `training_program` object will have your updated data.
 
 **DELETE**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#### Query for Inactive Customers
-
-Run the following API query to view all customers who have no orders:
+The `DELETE` method can only be used to delete training programs with future start dates, and cannot delete programs that have already been completed, in accordance with the `training_programs` fundamental relation to the database. If the training program has a future start date, you can test it by adding the `program_id` to the end of the `DELETE` method URL:
 ```
-http://localhost:<port number>/api/v1/customers/?active=false
+http://localhost:8080/api/v1/training_programs/<program_id>
 ```
-
+However, if the training program is not able to be deleted, it will return an error: 
+```
+{
+  "message": "Error error error!",
+  "error": "This training program cannot be deleted, it's start date is not in the future"
+}
+```
 

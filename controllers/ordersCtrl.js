@@ -32,6 +32,7 @@ module.exports.getAllOrders = (req, res, next) => {
     .catch(err => next(err));
 };
 
+//same process as above, except for retrieving a single order
 module.exports.getOneOrder = ( { params: { id } }, res, next) => {
     getOne(id)
     .then(order => {
@@ -59,6 +60,7 @@ module.exports.getOneOrder = ( { params: { id } }, res, next) => {
 };
 
 // POST
+// Checks customer_id and payment_type passed in via JSON to ensure a new, active order may not be added if an active order already exists for the customer
 module.exports.postOneOrder = (req, res, next) => {
     getByCustomer(req.body)
     .then(orders => {

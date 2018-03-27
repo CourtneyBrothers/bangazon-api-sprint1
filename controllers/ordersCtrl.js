@@ -76,7 +76,7 @@ module.exports.postOneOrder = (req, res, next) => {
                         res.status(200).json(newOrder);
                     })
             } else {
-                let error = new Error("Customers may only have one active order at a time!");
+                let error = new Error("Dubs! Customers may only have one active order at a time!");
                 error.status = 405;
                 next(error);
             }
@@ -84,12 +84,27 @@ module.exports.postOneOrder = (req, res, next) => {
 };
 
 // PUT
+// same functionality as the post, checks for active orders before updating
 module.exports.putOneOrder = (req, res, next) => {
-    putOne(req.params, req.body)
-        .then(order => {
-            res.status(200).json(order)
-        })
-        .catch(err => next(err));
+    getByCustomer(req.body)
+        .then(orders => {
+            let paymentTypeArray = [];
+            orders.forEach(order => {
+                if (order.payment_type === null) {
+                    paymentTypeArray.push(order);
+                }
+            })
+            if (!paymentTypeArray.length || req.body.payment_type !== null) {
+                putOne(req.params, req.body)
+                    .then(newOrder => {
+                        res.status(200).json(newOrder);
+                    })
+            } else {
+                let error = new Error("Dubs! Customers may only have one active order at a time!");
+                error.status = 405;
+                next(error);
+            }
+        });
 };
 
 // DELETE

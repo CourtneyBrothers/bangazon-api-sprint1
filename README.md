@@ -1,72 +1,40 @@
 # Bangazon API - Sprint 1
 
-Create `json` folder in root directory
-```
-$ mkdir json
-```
-
 ## TO RUN
+
+Please create the database by running the following commands in the root directory
 ```
-npm install
+$ npm install
+$ touch .env
+$ mkdir json
+$ node db/build_data.js
+$ node db/build_table.js
+$ nodemon app.js
+```
+Enter the following into the newly created `.env` file:
+```
+PORT=<desired 4-digit port number>
+NODE_ENV="DEVELOPMENT"
+```
+Alternatively, if you choose to not set up a `.env` file, it will run off of port 3000. For our examples, the port number will be `8080`.
+
+## API USAGE
+
+### CUSTOMER
+
+**GET**
+
+Please run the following query with a `GET` command to receive all products from the `customers` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/customers
+``` 
+
+To `GET` an individual customer, please run the following query with the `customer_id` inserted into the route parameters:
+```
+http://localhost:8080/api/v1/customers/<customer id integer>
 ```
 
-to generate data to populate the database run 
-```
-node db/build_data.js
-```
-to generate sqlite table run 
-```
-db/build_table.js
-```
-
-## API usage
-
-1) run nodemon app.js in the project directory
-
-#For access to customer resource:
-
-2) to getAllCustomers visit http://localhost:<port number>/api/v1/customers 
-this should serve the customers JSON 
-3) to get getOneCustomer visit http://localhost:<port number>/api/v1/customers/<customer_id>
-this should return the properties of the customer with the corresponding customer_id
-4) postOneCustomer 
-recommended to use through postman by passing in an object in the request body 
-
-POST: localhost:<port number>/api/v1/customers/
-Example: 
-`
-{
-"firstName":"Lelia",
-"lastName":"Fritsch",
-"addressStreet":"0301 Rocio Falls",
-"addressCity":"Gorczanyborough",
-"addressState":"North Dakota",
-"addressZip":"49855-5308",
-"accountCreationDate":"2018-03-22"
-} 
-`
-
-after navigation to http://localhost:<port number>/api/v1/customers the posted customer object will be at the bottom of the page
-
-5) putOneCustomer object
-
-PUT: localhost:<port number>/api/v1/customers/<customer_id>
-example customer :
-
-` 
-{
-"firstName":"Lelia",
-"lastName":"Fritsch",
-"addressStreet":"0301 Rocio Falls",
-"addressCity":"Gorczanyborough",
-"addressState":"North Dakota",
-"addressZip":"49855-5308",
-"accountCreationDate":"2018-03-22"
-} 
-`
-replaces existing customer object with customer object from put method
-
-#### Query for Inactive Customers
+**Query for inactive customers**
 
 Run the following API query to view all customers who have no orders:
 ```
@@ -74,178 +42,406 @@ http://localhost:<port number>/api/v1/customers/?active=false
 ```
 
 
-#employee resource access 
-
-
-## ORDERS
-# Description
-
-This pull request allows the developer to access the Order data in our database using GET, POST, PUT, and DELETE methods. The developer is able to GET all orders and GET single orders, POST a new order, PUT a different value for an existing order, and DELETE orders that are currently active (I.E. do not have a payment type). The DELETE method also deletes all products from the `order_products` table that have the same `order_id`. 
-
-This pull request requires that you already have the database created. Please do the following:
-1. `~ npm install`
-2. Create a `.env` file that matches the `.env.example` file, with your specified PORT number. We used PORT 8080, so that's what it is in the examples.
-3. `~ mkdir json`
-4. `node db/build_data.js`
-5. `node db/build_table.js`
-6. `nodemon app.js`
-
-The final step should start your server on the port you selected. You are now ready to test the API calls using an app like Postman.
-
-
-**GET**
-- To get all orders, use the `GET` method and go to: **http://localhost:8080/api/v1/orders/** - this should return a JSON file of all existing orders, both active and inactive
-- To get a single order, use the `GET` method and go to: **http://localhost:8080/api/v1/orders/<ORDER ID NUMBER>** - you need to insert the order ID number you're looking to get at the end of the URL, and it should return a JSON file of just one order with that specific order ID
-
 **POST**
-- To add an order, use the `POST` method and go to: **http://localhost:8080/api/v1/orders with the order that you want to add in JSON format. Here is my example:
+
+To add a new customer to the `customers` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such:
 ```
+http://localhost:8080/api/v1/customers/
+ 
 {
-	"customer_id": 92,
-	"payment_type": 26
+  "firstName":"Lelia",
+  "lastName":"Fritsch",
+  "addressStreet":"0301 Rocio Falls",
+  "addressCity":"Gorczanyborough",
+  "addressState":"North Dakota",
+  "addressZip":"49855-5308",
+  "accountCreationDate":"2018-03-22"
 }
 ```
-- If you refresh the data, you should see a new line with an automatically generated `order_id`, the new `customer_id` of 92, and the new `payment_type` of 26
+After refreshing the database, the new `customer` object will be at the bottom with a new, automatically generated `customer_id`.
 
 **PUT**
-- To edit a current order, use the `PUT` method and go to **http://localhost:8080/api/v1/orders/<ORDER ID NUMBER>** and add the `order_id` you want to edit the content for. Here is my example:
-```
-http://localhost:8080/api/v1/orders/45
 
-{
-	"customer_id":65,
-	"payment_type":26
-}
+
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `customer` row by passing the `customer_id` into the route parameters: 
 ```
-- This will update the data so that the order with an `order_id` of 45, now has a `customer_id` of 65, and the same `payment_type` of 26
+http://localhost:8080/api/v1/orders/<product_id>
+```
+
+After refreshing the database, the existing `customer` object will have your updated data.
 
 **DELETE**
-- The delete method will only work on an order that has an existing `order_id`, and has a `payment_type` of `NULL`
-- To test, use the `DELETE` method and go to **http://localhost:8080/api/v1/orders/<ORDER ID>**. You will need to put in the `order_id` in the end of the URL in order to access that specific order (using route params). If you put an `order_id` that has a `payment_type` of `null`, the order should delete from the database. If you put an `order_id` that is already complete and has a number for the `payment_type`, it will return an error: 
+
+`DELETE` method on the `customers` table not delete any rows from `customers` in accordance to table's fundamental relation to the database.
+
+### PRODUCT
+
+**GET**
+
+Please run the following query with a `GET` command to receive all products from the `products` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
 ```
+http://localhost:8080/api/v1/product
+```
+
+To `GET` an individual product, please run the following query with the `product_id` inserted into the route parameters
+```
+http://localhost:8080/api/v1/product/<product id integer>
+``` 
+
+**POST**
+
+To add a product to the `products` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such:
+```
+http://localhost:8080/api/v1/product
+
+{
+  "product_name": "automatic blinker fluid",
+  "product_type": 3,
+  "price": 45666,
+  "description": "for when your car blinker just doesnt wanna blink any longer",
+  "customer_id": 21,
+  "listing_date": "2012-03-03"
+}
+```
+
+**PUT**
+
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `product` row by passing the `product_id` into the route parameters: 
+```
+http://localhost:8080/api/v1/orders/<product_id>
+```
+
+After refreshing the database, the existing `product` object will have your updated data.
+
+**DELETE**
+
+`DELETE` method on the `products` table will only work if the specified `product_id` is not found on any row within the  `order_products` table. 
+
+If the `product_id` matches any row on `order_products` by running the following query, the proceeding message will be sent back:
+```
+http://localhost:8080/api/v1/product/<product_id>
 {
     "message": "Error error error!",
-    "error": "You cannot delete an order that has been completed"
+    "error": "This product can not be deleted"
 }
+```
+
+If the `product_id` does not match to any row on `order_products` by running the query, an empty JSON will be returned. Please check your database to ensure the specified `product_id` is no longer on the `products` table.
+
+### PAYMENT TYPE
+
+**GET**
+
+Please run the following query with a `GET` command to receive all payment types from the `payment_types` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/payment_types
+```
+
+To `GET` an individual payment type, please run the following query with the `payment_id` inserted into the route parameters:
+```
+http://localhost:8080/api/v1/payment_types/<payment_id>
+``` 
+
+
+**POST**
+
+To add a product to the `payment_types` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such:
 
 ```
-## EMPLOYEES 
+{
+   "customer_id": 32,
+   "payment_option": "Moostercard",
+   "account_number": 12345677998810
+}
+```
 
-1) run nodemon app.js in project directory  
+**PUT**
 
-2) to getAllEmployees visit http://localhost:<_your_port number>/api/v1/employees
-this should serve the customers JSON 
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `payment_type` row by passing the `payment_id` into the route parameters. Users will only be able to update `payment_option` and `account_number`:
 
-3) to getOneEmployee  visit http://localhost:<_your_port number>/api/v1/employees/_employee_id
-
-4)postOneEmployee
-
-recommended to use postman to pass employee object 
-example: 
+```
+http://localhost:8080/api/v1/payment_types/<payment_id>
 
 {
-"firstName": "Afton",
-"lastName": "Kessler",
-"deptId": 10
+  "payment_option": "Mastercard",
+  "account_number": 12345677998810
 }
-`
-POST: localhost:<_your_port number>/api/v1/employees
+```
 
-employee will be added at next primary integer position to the list of employees
+After refreshing the database, the existing `payment_type` object will have your updated data.
 
-PUT:localhost:<_your_port_number_>/api/v1/employees/_employee_id
+**DELETE**
 
-employee object will replace the employee object at the _employee_id position specified in the http request 
+The `DELETE` method on the `payment_types` table will not delete any rows from `payment_types` in accordance to table's fundamental relation to the database.
 
-#department resource access 
-1) run nodemon app.js in project directory  
+### ORDER
 
-2) to getAllDepartments visit http://localhost:<_your_port number>/api/v1/departments
-this should serve the customers JSON 
+**GET**
 
-3) to getOneDepartment visit http://localhost:<_your_port number>/api/v1/departments/_department_id_
+Please run the following query with a `GET` command to receive all orders from the `orders` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/orders
+```
 
-4)postOneDepartment
+To `GET` an individual order, please run the following query with the `order_id` inserted into the route parameters:
+```
+http://localhost:8080/api/v1/orders/<order_id>
+``` 
 
-recommended to use postman to pass department object 
-example: 
-`
+**POST**
+
+To add a product to the `orders` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such:
+
+```
+{
+  "customer_id": 92,
+  "payment_type": 26
+}
+```
+
+**PUT**
+
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `orders` row by passing the `order_id` into the route parameters. Users will only be able to update `payment_option` and `account_number`:
+
+```
+http://localhost:8080/api/v1/orders/<payment_id>
 
 {
-"departmentName": "CARS",
-"supervisorId": 1,
-"budget": 14888
+  "customer_id":65,
+  "payment_type":26
 }
-`
-department object will add the department object at the _department_id_ at the next position
+```
 
-5) putOneDepartment
+After refreshing the database, the existing `order_id` object will have your updated data.
 
-PUT:localhost:<_your_port_number>/api/v1/departments/_department_id_
+**DELETE**
 
+The `DELETE` method will only work on an order that has an existing `order_id`, and has a `payment_type` of `NULL`, signifying that it is still active. Completed orders cannot be deleted. 
 
-department object will replace the department object at the _department_id_ position specified in the http request 
-
-## TRAINING PROGRAMS
-
-Description
-This pull request gives developers API access to the Training Programs table and supports the following API calls:
-
-GET
-POST
-PUT
-DELETE
-Type of change
- Bug fix (non-breaking change which fixes an issue)
- New feature (non-breaking change which adds functionality)
- Breaking change (fix or feature that would cause existing functionality to not work as expected)
- This change requires a documentation update
-How Has This Been Tested?
-To test the GET API call run the following commands from the root folder:
-npm install
-node db/build_data.js
-node db/build_table.js
-nodemon app.js
-GET
-
-To test the GET API call use the following URL to get a list of all training programs.
-http://localhost:<definied port number>/api/v1/training_programs
-To test the GET API call use the following URL and enter in an Id integer to get back one specific program.
-http://localhost:<definied port number>/api/v1/training_programs/<id>
-POST
-To test the POST API call use postman to POST the following program object.
+If the `order_id` also has a `payment_type` that is not `NULL`, by running the following query, the proceeding message will be sent back:
+```
+http://localhost:8080/api/v1/orders/<order_id>
 
 {
-  "program_title": "Try really hard and stuff",
-  "start_date": "2019-02-17",
-  "end_date": "2020-07-07",
-  "max_attendees": 30
+  "message": "Error error error!",
+  "error": "You cannot delete an order that has been completed"
 }
-PUT
-To test the PUT API call use postman to update the previous POST with new information. Don't forget to include the ID within the URL:
+```
 
-http://localhost:<port number>/api/v1/training_programs/<id>
+If the order that you try to delete is currently active (I.E. has a `payment_type` of `NULL` on the `orders` table), it will successfully delete from the `orders` table. It will also simultaneously delete any rows from the `order_products` table with the corresponding `order_id`. 
+
+### PRODUCT TYPE
+
+**GET**
+
+Please run the following query with a `GET` command to receive all product types from the `product_types` table in your preferred API testing tool (e.g. Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/product_types
+```
+
+To `GET` an individual product type, please run the following query with the `product_type_id` inserted into the route parameters: 
+```
+http://localhost:8080/api/v1/product_types/<product_type_id>
+```
+
+**POST**
+
+To add a product to the `product_types` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such: 
+```
+{
+  "product_type_name":"what ever you'd like it to be"
+}
+```
+
+**PUT**
+
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `product_type_name` row by passing the `product_type_id` into the route parameters. Users will only be able to update the `product_type_name`, as the `product_type_id` is generated automatically:
+```
+  "product_type_name":"new name"
+```
+
+**DELETE**
+
+The `DELETE` method will only work on a product type that does not have any corresponding products referencing its `product_type_id`. To test it, use the `DELETE` method in your API testing application and query the following url:
+```
+http://localhost:8080/api/v1/product_types/<product_type_id>
+```
+If the `product_type_id` does not have any corresponding products referencing it, the product type will be deleted from your database. Otherwise, you will receive the following message:
+```
+  "message": "Error error error!",
+  "error": "A Product Type may not be deleted if any Products using the Product Type's ID exist."
+```
+
+### EMPLOYEE
+
+**GET**
+
+Please run the following query with a `GET` command to receive all employees from the `employees` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/employees
+```
+
+To `GET` an individual employee, please run the following query with the `employee_id` inserted into the route parameters:
+```
+http://localhost:8080/api/v1/employees/<employee_id>
+```
+
+**POST**
+
+To add an employee to the `employees` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such:
+```
+{
+  "firstName":"Afton",
+  "lastName":"Kessler",
+  "deptId":10
+}
+```
+
+**PUT**
+
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `employees` row by passing the `employee_id` into the route parameters. Users will only be able to update the `first_name`, `last_name`, and `dept_id`, as the `employee_id` is generated automatically:
+```
+http://localhost:8080/api/v1/employees/<employee_id>
+
+{
+  "firstName":"Ashton",
+  "lastName":"Kutcher",
+  "deptId":10
+}
+```
+After refreshing the database, the existing `employee` will have your updated data.
+
+**DELETE**
+
+The `DELETE` method on the `employees` table will not delete any rows from the `employees` in accordance to the table's fundamental relation to the database.
+
+### DEPARTMENT
+
+**GET**
+
+Please run the following query with a `GET` command to receive all departments from the `departments` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/departments
+```
+
+To `GET` an individual department, please run the following query with the `department_id` inserted into the route parameters:
+```
+http://localhost:8080/api/v1/departments/<department_id>
+```
+
+**POST**
+
+To add a department to the `departments` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such:
+```
+{
+  "departmentName": "Cars",
+  "supervisorId": 1,
+  "budget": 14888
+}
+```
+
+**PUT**
+
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `departments` row by passing the `department_id` into the route parameters. Users will only be able to update `department_name`, `supervisor_id`, and `budget`, as `department_id` is generated automatically:
+```
+http://localhost:8080/api/v1/departments/<department_id>
+```
+After refreshing the database, the existing `department` object will have your updated data.
+
+**DELETE**
+
+The `DELETE` method on the `departments` table will not delete any rows from `departments` in accordance to the table's fundamental relation to the database.
+
+### COMPUTER
+
+**GET**
+
+Please run the following query with a `GET` command to receive all computers from the `computers` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/computers
+```
+
+To `GET` an individual computer, please run the following query with the `computer_id` inserted into the route parameters:
+```
+http://localhost:8080/api/v1/computers/<computer_id>
+```
+
+**POST**
+
+To add a computer to the `computers` table using your API testing tool, use the `computers` method to the following query with your JSON formatted as such:
+```
+{
+  "purchase_date":"2010-01-01"
+}
+```
+
+Note: The user can only add a new computer with a `purchase_date` and no `decommissioned_date` because the user cannot add a computer retroactively to the database. 
+
+**PUT**
+
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `computers` row by passing the `computer_id` into the route parameters. Users will only be able to update the `decommission_date`, and if a computer is already decommissioned, the user cannot add a new `decommission_date`:
+```
+http://localhost:8080/api/v1/computers/<computer_id>
+
+{
+  "decommission_date": "2010-01-01"
+}
+```
+
+**DELETE**
+
+The `DELETE` method on the `computers` table will not delete any rows from `computers` in accordance to the table's fundamental relation to the database. However, if a computer becomes decommissioned, the `PUT` method can be used to add a `decommission_date` to the row, and that will be edited on the `employee_computer` join table as well. The API will `INSERT` into `employee_computer` an end date where `employee_computer.end_date = NULL` and `employee_computer.computer_id = <specified computer_id>`.
+
+### TRAINING PROGRAM
+
+**GET**
+
+Please run the following query with a `GET` command to receive all training programs from the `training_programs` table in your preferred API testing tool (e.g., Postman) or in your browser with JSON Viewer enabled:
+```
+http://localhost:8080/api/v1/training_programs
+```
+
+To `GET` an individual training program, please run the following query with the `program_id` inserted into the route parameters:
+```
+http://localhost:8080/api/v1/training_programs/<program_id>
+```
+
+**POST**
+
+To add a training program to the `training_programs` table using your API testing tool, use the `POST` method to the following query with your JSON formatted as such:
+ ```
+ {
+   "program_title": "Try really hard and stuff",
+   "start_date": "2019-02-17",
+   "end_date": "2020-07-07",
+   "max_attendees": 30
+ }
+ ```
+
+**PUT**
+
+Using the same JSON formatting as before, use the `PUT` method to update/overwrite a specific `training_program` row by passing the `program_id` into the route parameters. Users will only be able to update `program_title`, `start_date`, `end_date`, and `max_attendees`, as the `program_id` is automatically generated:
+```
 {
   "program_title": "Try EXTRA hard in everything you do",
   "start_date": "2020-02-17",
   "end_date": "2020-07-07",
   "max_attendees": 45
 }
-DELETE
+```
+After refreshing the database, the existing `training_program` object will have your updated data.
 
-Users should only be able to delete training programs with future start dates.
-You can test this by deleting the training program you just added to the DB using the POST API call. Don't forget to add the id to the end of the URL.
-http://localhost:<port number>/api/v1/training_programs/<id>
-Attempt to delete any training program with a past start and you should get the following error:
+**DELETE**
+
+The `DELETE` method can only be used to delete training programs with future start dates, and cannot delete programs that have already been completed, in accordance with the `training_programs` fundamental relation to the database. If the training program has a future start date, you can test it by adding the `program_id` to the end of the `DELETE` method URL:
+```
+http://localhost:8080/api/v1/training_programs/<program_id>
+```
+However, if the training program is not able to be deleted, it will return an error: 
+```
 {
-    "message": "Error error error!",
-    "error": "This training program cannot be deleted, it's start date is not in the future"
+  "message": "Error error error!",
+  "error": "This training program cannot be deleted, it's start date is not in the future"
 }
-DELETE will also remove any employee entries in the employee_training table for the deleted training program.
-You can test this by manually updating the start dates of an existing training that has employees enrolled in it. Set the start date to a future date, then delete the training program.
-Checklist:
- My code follows the style guidelines of this project
- I have performed a self-review of my own code
- I have commented my code, particularly in hard-to-understand areas
- I have made corresponding changes to the documentation
- My changes generate no new warnings
+```
+

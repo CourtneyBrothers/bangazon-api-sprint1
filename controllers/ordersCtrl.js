@@ -1,6 +1,6 @@
 "use strict";
 
-const { getAll, getOne, postOne, putOne, deleteOne, getProductsInOrder } = require("../models/Order");
+const { getAll, getOne, postOne, putOne, deleteOne, getProductsInOrder, getByCustomer } = require("../models/Order");
 const productModel = require('../models/Product');
 // GET
 
@@ -60,11 +60,25 @@ module.exports.getOneOrder = ( { params: { id } }, res, next) => {
 
 // POST
 module.exports.postOneOrder = (req, res, next) => {
-    postOne(req.body)
-    .then(order => {
-        res.status(200).json(order)
+    getByCustomer(req.body)
+    .then(orders => {
+        let paymentTypeArray = [];
+        orders.forEach(order => {
+            if (order.payment_type === null) {
+                paymentTypeArray.push(order);
+            }
+        })
+        if (!paymentTypeArray.length){
+            postOne(req.body)
+            .then(newOrder => {
+                res.status(200).json(newOrder);
+            })
+        } else {
+            let error = new Error("Customers may only have one active order at a time!");
+            error.status = 405;
+            next(error);
+        }
     })
-    .catch(err => next(err));
 }
 
 // PUT

@@ -38,6 +38,16 @@ module.exports.getProductsInOrder = (id) => {
     });
 }
 
+module.exports.getByCustomer = ({customer_id}) => {
+    return new Promise((resolve, reject) => {
+        db.all(`SELECT * FROM orders AS o
+                WHERE o.customer_id = ${customer_id}`, 
+                (err, orders) => {
+                    if (err) return reject(err);
+                    resolve(orders);
+        });
+    });
+};
 // POST
 module.exports.postOne = ({customer_id, payment_type}) => {
     return new Promise((resolve, reject) => {

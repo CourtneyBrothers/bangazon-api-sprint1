@@ -68,7 +68,7 @@ module.exports.postOneOrder = (req, res, next) => {
                 paymentTypeArray.push(order);
             }
         })
-        if (!paymentTypeArray.length){
+        if (!paymentTypeArray.length || req.body.payment_type !== null ){
             postOne(req.body)
             .then(newOrder => {
                 res.status(200).json(newOrder);

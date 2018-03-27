@@ -1,7 +1,5 @@
 # Bangazon API - Sprint 1
 
--- STILL WORKING, NOT FINISHED -- 
-
 ## TO RUN
 
 Please create the database by running the following commands in the root directory
